@@ -42,7 +42,7 @@ public class RowEntry {
         return date; 
     }
 
-    public int getDuration() {
+    public int getTime() {
         return duration;
     }
 
