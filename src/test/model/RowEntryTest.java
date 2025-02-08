@@ -53,7 +53,4 @@ public class RowEntryTest {
         testRowEntry.unflagWorkout();
         assertFalse(testRowEntry.getFlagStatus());
     }
-
-
-
 }
