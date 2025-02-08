@@ -6,9 +6,9 @@ public class RowEntry {
     // REQUIRES: date have the format yyyy-mm-dd
     // distance > 0
     // time have the format hh:mm:ss
-    // EFFECTS: constructs a workout entry for given date, distance, duration,
+    // EFFECTS: constructs a workout entry for given date, distance, duration (seconds), rate,
     // and sets the flagged status to false
-    public RowEntry(String date, int distance, int duration) {
+    public RowEntry(String date, int distance, int duration, int rate) {
         // stub
     }
 
@@ -38,6 +38,10 @@ public class RowEntry {
     }
 
     public int getDistance() {
+        return 0; // stub
+    }
+
+    public int getRate() {
         return 0; // stub
     }
 
