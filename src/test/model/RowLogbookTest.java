@@ -19,15 +19,15 @@ public class RowLogbookTest {
         testRowEntry3 = new RowEntry("2025-02-09", 6000, 1400, 32);
         testRowEntry4 = new RowEntry("2025-02-07", 2000, 460, 30);
         testRowLogbook = new RowLogbook();
-        testRowLogbook.add(testRowEntry1);
-        testRowLogbook.add(testRowEntry2);
+        testRowLogbook.addEntry(testRowEntry1);
+        testRowLogbook.addEntry(testRowEntry2);
     }
 
     @Test
     void testConstructor() {
-        assertEquals(2, testRowLogbook.length());
-        assertEquals(testRowEntry1, testRowLogbook.get(0));
-        assertEquals(testRowEntry2, testRowLogbook.get(1));
+        assertEquals(2, testRowLogbook.countEntries());
+        assertEquals(testRowEntry1, testRowLogbook.getRowEntry(0));
+        assertEquals(testRowEntry2, testRowLogbook.getRowEntry(1));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class RowLogbookTest {
     @Test
     void testFindTotalWorkoutsAddEntry() {
         assertEquals(2, testRowLogbook.findTotalWorkouts());
-        testRowLogbook.add(testRowEntry3);
+        testRowLogbook.addEntry(testRowEntry3);
         assertEquals(3, testRowLogbook.findTotalWorkouts());
     }
 
@@ -62,7 +62,7 @@ public class RowLogbookTest {
     @Test
     void testFindTotalDistanceAddEntry() {
         assertEquals(8000, testRowLogbook.findTotalDistance());
-        testRowLogbook.add(testRowEntry3);
+        testRowLogbook.addEntry(testRowEntry3);
         assertEquals(14000, testRowLogbook.findTotalDistance());
     }
 
@@ -80,7 +80,7 @@ public class RowLogbookTest {
     @Test
     void testFindTotalTimeAddEntry() {
         assertEquals(2040, testRowLogbook.findTotalTime());
-        testRowLogbook.add(testRowEntry3);
+        testRowLogbook.addEntry(testRowEntry3);
         assertEquals(2040 + 1400, testRowLogbook.findTotalTime());
     }
 
@@ -91,18 +91,32 @@ public class RowLogbookTest {
 
     @Test
     void testFind2kmPersonalBestLaterInList() {
-        testRowLogbook.add(testRowEntry4);
+        testRowLogbook.addEntry(testRowEntry4);
+        assertEquals(460, testRowLogbook.find2kmPersonalBest());
+    }
+
+    @Test
+    void testFind2kmPersonalBestLaterMiddleOfList() {
+        testRowLogbook.addEntry(testRowEntry4);
+        testRowLogbook.addEntry(testRowEntry1);
         assertEquals(460, testRowLogbook.find2kmPersonalBest());
     }
 
     @Test
     void testFind6kmPersonalBest() {
-        assertEquals(1560, testRowLogbook.find2kmPersonalBest());
+        assertEquals(1560, testRowLogbook.find6kmPersonalBest());
     }
 
     @Test
     void testFind6kmPersonalBestLaterInList() {
-        testRowLogbook.add(testRowEntry3);
-        assertEquals(1400, testRowLogbook.find2kmPersonalBest());
+        testRowLogbook.addEntry(testRowEntry3);
+        assertEquals(1400, testRowLogbook.find6kmPersonalBest());
+    }
+
+    @Test
+    void testFind6kmPersonalBestMiddleOfList() {
+        testRowLogbook.addEntry(testRowEntry3);
+        testRowLogbook.addEntry(testRowEntry2);
+        assertEquals(1400, testRowLogbook.find6kmPersonalBest());
     }
 }
