@@ -8,18 +8,6 @@ public class RowLogbook {
         // stub
     }
 
-    // MODIFIES: this
-    // EFFECTS: adds workout entry to the row logbook
-    public void addRowEntry() {
-        // stub
-    }
-
-    // MODIFIES: this
-    // EFFECTS: removes workout entry from the row logbook
-    public void removeRowEntry() {
-        // stub
-    }
-
     // EFFECTS: Returns total number of logbook entries
     public int findTotalWorkouts() {
         return 0; // stub
