@@ -25,7 +25,12 @@ public class RowLogbook {
 
     // EFFECTS: Returns RowEntry at given index in list
     public RowEntry getRowEntry(int i) {
-    return rowLogbook.get(i);
+        return rowLogbook.get(i);
+    }
+
+    // EFFECTS: Returns list of row entries in logbook
+    public List<RowEntry> getRowLogbook() {
+        return rowLogbook;
     }
 
     // EFFECTS: Returns total number of logbook entries

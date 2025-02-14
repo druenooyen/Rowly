@@ -17,7 +17,7 @@ public class RowEntryTest {
     void testConstructor() {
         assertEquals("2025-02-07", testRowEntry.getDate());
         assertEquals(2000, testRowEntry.getDistance());
-        assertEquals(480, testRowEntry.getDuration());
+        assertEquals(480, testRowEntry.getTime());
         assertEquals(30, testRowEntry.getRate());
         assertFalse(testRowEntry.getFlagStatus());
     }
