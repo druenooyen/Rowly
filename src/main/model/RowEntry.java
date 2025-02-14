@@ -11,11 +11,10 @@ public class RowEntry {
     private int rate;
     private boolean flagStatus;
 
-    // REQUIRES: date have the format yyyy-mm-dd
-    // distance > 0
-    // time have the format hh:mm:ss
+    // REQUIRES: date have the format yyyy-mm-dd, distance > 0, 
+    //           duration have the format hh:mm:ss, rate > 0
     // EFFECTS: constructs a workout entry for given date, distance, duration, rate,
-    // and sets the flagged status to false
+    //          and sets the flagged status to false
     public RowEntry(String date, int distance, String duration, int rate) {
         this.date = date;
         this.distance = distance;

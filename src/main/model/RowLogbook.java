@@ -51,7 +51,7 @@ public class RowLogbook {
            return time;
        }
 
-    // EFFECTS: Returns total time of all logbook entries
+    // EFFECTS: returns total time of all logbook entries
     public String findTotalTime() {
         int time = 0;
         for (RowEntry entry : rowLogbook) {
@@ -60,8 +60,7 @@ public class RowLogbook {
         return convertToTimeString(time);
     }
 
-    // REQUIRES: A 2km workout entry in the logbook
-    // EFFECTS: Returns best 2km time in workout logbook, if none
+    // EFFECTS: returns best 2km time in workout logbook, if none
     //          in logbook then returns "None"
     public String find2kmPersonalBest() {
         int shortest2kTime = Integer.MAX_VALUE;
@@ -77,7 +76,6 @@ public class RowLogbook {
         }
     }
 
-    // REQUIRES: A 6km workout entry in the logbook
     // EFFECTS: Returns best 6km time in workout logbook, if none
     //          in logbook then returns "None"
     public String find6kmPersonalBest() {

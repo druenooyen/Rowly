@@ -1,12 +1,13 @@
 package ui;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.RowEntry;
 import model.RowLogbook;
 
 // Creates an instance of rowing workout tracker application
-// Inspired by code found in FlashcardReviewer Lab
+// References code found in Lab 4 Flashcard Reviewer
 public class RowTrackerApp {
     private boolean isProgramRunning;
     private RowLogbook rowLogbook;
@@ -63,8 +64,7 @@ public class RowTrackerApp {
         printDivider();
     }
 
-    // EFFECTS: displays menu options to user (Add entry, view all entries,
-    // view stats, view personal bests, quit)
+    // EFFECTS: displays menu options to user 
     private void displayMenuOptions() {
         System.out.println("Please select from the following options:");
         System.out.println("a: Add a new workout entry");
@@ -77,7 +77,7 @@ public class RowTrackerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: Creates new RowEntry and adds to Row Logbook
+    // EFFECTS: creates new RowEntry and adds to Row Logbook
     private void addNewEntry() {
         System.out.println("Please enter the date of your workout (YYYY-MM-DD)");
         String date = scanner.nextLine();
@@ -99,12 +99,11 @@ public class RowTrackerApp {
             rowLogbook.addEntry(rowEntry);
             System.out.println("New entry successfully created!");
         }
-
         flagAddedEntry(rowEntry);
     }
 
     // MODIFIES: rowEntry
-    // EFFECT: flags given entry depending on user input
+    // EFFECTS: flags given entry depending on user input
     private void flagAddedEntry(RowEntry rowEntry) {
         System.out.println("Would you like to flag this workout? (y/n)");
         String userInput = scanner.nextLine();
@@ -114,7 +113,7 @@ public class RowTrackerApp {
         }
     }
 
-    // EFFECT: prints out overview of given row entry
+    // EFFECTS: prints out overview of rowEntry
     private void displayRowEntry(RowEntry rowEntry) {
         System.out.println("Summary of your workout on " + rowEntry.getDate() + ":");
         System.out.println("Distance: " + rowEntry.getDistance() + " meters");
@@ -122,16 +121,16 @@ public class RowTrackerApp {
         System.out.println("Stroke Rate: " + rowEntry.getRate() + " strokes per minute");
     }
 
-    // EFFECT: prints out one line summary of given row entry
+    // EFFECTS: prints out one line summary of rowEntry
     private void displayRowEntrySummary(RowEntry rowEntry) {
         System.out.println("Date: " + rowEntry.getDate() + " // "
                 + "Distance: " + rowEntry.getDistance() + " meters // "
                 + "Duration: " + rowEntry.getTime());
     }
 
-    // EFFECT: prints all workout entries in log to the screen
+    // EFFECTS: prints all row entries in log to the screen
     private void printLogbook() {
-        if (handleEmptyLogbook()) {
+        if (isEmptyLogbook()) {
             return;
         }
         System.out.println("Here are your logbook entries:");
@@ -140,23 +139,32 @@ public class RowTrackerApp {
         }
     }
 
-    // EFFECT: prints all flagged workout entries in log to the screen
+    // EFFECTS: prints all flagged workout entries in log to the screen, prints 
+    //          message to user if logbook has no entries or no flagged entries
     private void printFlaggedEntries() {
-        if (handleEmptyLogbook()) {
+        if (isEmptyLogbook()) {
             return;
         }
-        System.out.println("Here are your flagged entries:");
+        ArrayList<RowEntry> flaggedEntries = new ArrayList<>();
         for (RowEntry r : rowLogbook.getRowLogbook()) {
             if (r.getFlagStatus()) {
+                flaggedEntries.add(r);
+            }
+        }
+        if (flaggedEntries.isEmpty()) {
+            System.out.println("There are no flagged entries in your logbook.");
+        } else {
+            System.out.println("Here are your flagged entries:");
+            for (RowEntry r : flaggedEntries) {
                 displayRowEntrySummary(r);
             }
         }
     }
 
-    // EFFECT: prints total workouts, total distance, and total time
-    // of all entries in logbook
+    // EFFECTS: prints total workouts, total distance, and total time
+    //         of all entries in logbook
     private void printLogbookTotals() {
-        if (handleEmptyLogbook()) {
+        if (isEmptyLogbook()) {
             return;
         }
         System.out.println("Your logbook totals:");
@@ -165,9 +173,9 @@ public class RowTrackerApp {
         System.out.println("Total Time: " + rowLogbook.findTotalTime());
     }
 
-    // EFFECT: prints current 2k and 6k personal bests
+    // EFFECTS: prints current 2km and 6km personal bests
     private void printPersonalBests() {
-        if (handleEmptyLogbook()) {
+        if (isEmptyLogbook()) {
             return;
         }
         System.out.println("Your current personal bests:");
@@ -175,9 +183,9 @@ public class RowTrackerApp {
         System.out.println("6km: " + rowLogbook.find6kmPersonalBest());
     }
 
-    // EFFECT: if logbook has no entries, prints message to add entries and returns
-    // true
-    private boolean handleEmptyLogbook() {
+    // EFFECTS: if logbook has no entries, prints user message and returns
+    //         true, otherwise returns false
+    private boolean isEmptyLogbook() {
         if (rowLogbook.getRowLogbook().isEmpty()) {
             System.out.println("Your logbook is empty! Please add a new entry.");
             return true;
