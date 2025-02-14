@@ -83,20 +83,20 @@ public class RowLogbookTest {
 
     @Test
     void testFindTotalTimeEmpty() {
-        assertEquals("0:0:0", testRowLogbook.findTotalTime());
+        assertEquals("0:00:00", testRowLogbook.findTotalTime());
     }
 
     @Test
     void testFindTotalTimeMultipleSingleEntry() {
         testRowLogbook.addEntry(testRowEntry1);
-        assertEquals("0:8:0", testRowLogbook.findTotalTime());
+        assertEquals("0:08:00", testRowLogbook.findTotalTime());
     }
 
     @Test
     void testFindTotalTimeMultipleEntries() {
         testRowLogbook.addEntry(testRowEntry1);
         testRowLogbook.addEntry(testRowEntry2);
-        assertEquals("0:34:0", testRowLogbook.findTotalTime());
+        assertEquals("0:34:00", testRowLogbook.findTotalTime());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class RowLogbookTest {
     void testFind2kmPersonalBest() {
         testRowLogbook.addEntry(testRowEntry1);
         testRowLogbook.addEntry(testRowEntry2);
-        assertEquals("0:8:0", testRowLogbook.find2kmPersonalBest());
+        assertEquals("0:08:00", testRowLogbook.find2kmPersonalBest());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class RowLogbookTest {
         testRowLogbook.addEntry(testRowEntry1);
         testRowLogbook.addEntry(testRowEntry2);
         testRowLogbook.addEntry(testRowEntry4);
-        assertEquals("0:7:40", testRowLogbook.find2kmPersonalBest());
+        assertEquals("0:07:40", testRowLogbook.find2kmPersonalBest());
     }
 
     @Test
@@ -132,7 +132,7 @@ public class RowLogbookTest {
         testRowLogbook.addEntry(testRowEntry2);
         testRowLogbook.addEntry(testRowEntry4);
         testRowLogbook.addEntry(testRowEntry1);
-        assertEquals("0:7:40", testRowLogbook.find2kmPersonalBest());
+        assertEquals("0:07:40", testRowLogbook.find2kmPersonalBest());
     }
 
     @Test
@@ -151,7 +151,7 @@ public class RowLogbookTest {
     void testFind6kmPersonalBest() {
         testRowLogbook.addEntry(testRowEntry1);
         testRowLogbook.addEntry(testRowEntry2);
-        assertEquals("0:26:0", testRowLogbook.find6kmPersonalBest());
+        assertEquals("0:26:00", testRowLogbook.find6kmPersonalBest());
     }
 
     @Test

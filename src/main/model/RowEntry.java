@@ -2,7 +2,8 @@ package model;
 
 import java.util.Scanner;
 
-// A class representing a rowing workout entry having a date, distance (in meters), time (in seconds), and flag status
+// A class representing a rowing workout entry having a date, distance (in meters),
+// time (in total seconds and in hh:mm:ss), stroke rate, and flag status
 public class RowEntry {
     private String date;
     private int distance;
@@ -11,7 +12,7 @@ public class RowEntry {
     private int rate;
     private boolean flagStatus;
 
-    // REQUIRES: date have the format yyyy-mm-dd, distance > 0, 
+    // REQUIRES: date is in the format yyyy-mm-dd, distance > 0, 
     //           duration have the format hh:mm:ss, rate > 0
     // EFFECTS: constructs a workout entry for given date, distance, duration, rate,
     //          and sets the flagged status to false

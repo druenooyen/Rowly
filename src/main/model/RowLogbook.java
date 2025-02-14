@@ -7,33 +7,29 @@ import java.util.List;
 public class RowLogbook {
     List<RowEntry> rowLogbook;
 
-    // EFFECTS: Creates logbook to store workout entries
+    // EFFECTS: creates logbook to store workout entries
     public RowLogbook() {
         rowLogbook = new ArrayList<RowEntry>();
     }
 
     // MODIFIES: this
-    // EFFECTS: Adds given RowEntry to logbook
-    public void addEntry(RowEntry entry) {
-        rowLogbook.add(entry);
+    // EFFECTS: adds RowEntry to logbook
+    public void addEntry(RowEntry rowEntry) {
+        rowLogbook.add(rowEntry);
     }
 
-    // EFFECTS: Returns number of entries in logbook
+    // EFFECTS: returns number of entries in logbook
     public int countEntries() {
         return rowLogbook.size();
     }
 
-    // EFFECTS: Returns RowEntry at given index in list
+    // REQUIRES: size of logbook is > i
+    // EFFECTS: returns RowEntry at given index in list
     public RowEntry getRowEntry(int i) {
         return rowLogbook.get(i);
     }
 
-    // EFFECTS: Returns list of row entries in logbook
-    public List<RowEntry> getRowLogbook() {
-        return rowLogbook;
-    }
-
-    // EFFECTS: Returns total distance of all logbook entries
+    // EFFECTS: returns total distance of all logbook entries
     public int findTotalDistance() {
         int distance = 0;
         for (RowEntry entry : rowLogbook) {
@@ -42,14 +38,15 @@ public class RowLogbook {
         return distance;
     }
 
+    // REQUIRES: totalSeconds is >= 0
     // EFFECTS: converts total seconds to time in hh:mm:ss format
-    public String convertToTimeString(int totalSeconds) {
+    private String convertToTimeString(int totalSeconds) {
         int hours = totalSeconds / 3600;
-           int minutes = (totalSeconds % 3600) / 60;
-           int seconds = totalSeconds % 60;
-           String time = hours + ":" + minutes + ":" + seconds;
-           return time;
-       }
+        int minutes = (totalSeconds % 3600) / 60;
+        int seconds = totalSeconds % 60;
+
+        return String.format("%d:%02d:%02d", hours, minutes, seconds);
+    }
 
     // EFFECTS: returns total time of all logbook entries
     public String findTotalTime() {
@@ -60,7 +57,7 @@ public class RowLogbook {
         return convertToTimeString(time);
     }
 
-    // EFFECTS: returns best 2km time in workout logbook, if none
+    // EFFECTS: returns shortest 2km time in workout logbook, if none
     //          in logbook then returns "None"
     public String find2kmPersonalBest() {
         int shortest2kTime = Integer.MAX_VALUE;
@@ -72,11 +69,11 @@ public class RowLogbook {
         if (shortest2kTime == Integer.MAX_VALUE) {
             return "None";
         } else {
-        return convertToTimeString(shortest2kTime);
+            return convertToTimeString(shortest2kTime);
         }
     }
 
-    // EFFECTS: Returns best 6km time in workout logbook, if none
+    // EFFECTS: returns shortest 6km time in workout logbook, if none
     //          in logbook then returns "None"
     public String find6kmPersonalBest() {
         int shortest6kTime = Integer.MAX_VALUE;
@@ -88,7 +85,12 @@ public class RowLogbook {
         if (shortest6kTime == Integer.MAX_VALUE) {
             return "None";
         } else {
-        return convertToTimeString(shortest6kTime);
+            return convertToTimeString(shortest6kTime);
         }
+    }
+
+    // getters
+    public List<RowEntry> getRowLogbook() {
+        return rowLogbook;
     }
 }

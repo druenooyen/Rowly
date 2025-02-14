@@ -79,7 +79,7 @@ public class RowTrackerApp {
     // MODIFIES: this
     // EFFECTS: creates new RowEntry and adds to Row Logbook
     private void addNewEntry() {
-        System.out.println("Please enter the date of your workout (YYYY-MM-DD)");
+        System.out.println("Please enter the date of your workout (yyyy-mm-dd)");
         String date = scanner.nextLine();
         System.out.println("Please enter the distance of your workout (in meters)");
         int distance = scanner.nextInt();
@@ -125,7 +125,8 @@ public class RowTrackerApp {
     private void displayRowEntrySummary(RowEntry rowEntry) {
         System.out.println("Date: " + rowEntry.getDate() + " // "
                 + "Distance: " + rowEntry.getDistance() + " meters // "
-                + "Duration: " + rowEntry.getTime());
+                + "Duration: " + rowEntry.getTime() + " // "
+                + "Rate: " + rowEntry.getRate() + " strokes per minute");
     }
 
     // EFFECTS: prints all row entries in log to the screen
