@@ -33,11 +33,6 @@ public class RowLogbook {
         return rowLogbook;
     }
 
-    // EFFECTS: Returns total number of logbook entries
-    public int findTotalWorkouts() {
-        return rowLogbook.size();
-    }
-
     // EFFECTS: Returns total distance of all logbook entries
     public int findTotalDistance() {
         int distance = 0;
@@ -47,6 +42,7 @@ public class RowLogbook {
         return distance;
     }
 
+    // EFFECTS: converts total seconds to time in hh:mm:ss format
     public String convertToTimeString(int totalSeconds) {
         int hours = totalSeconds / 3600;
            int minutes = (totalSeconds % 3600) / 60;
@@ -65,7 +61,8 @@ public class RowLogbook {
     }
 
     // REQUIRES: A 2km workout entry in the logbook
-    // EFFECTS: Returns best 2km time in workout logbook
+    // EFFECTS: Returns best 2km time in workout logbook, if none
+    //          in logbook then returns "None"
     public String find2kmPersonalBest() {
         int shortest2kTime = Integer.MAX_VALUE;
         for (RowEntry entry : rowLogbook) {
@@ -73,11 +70,16 @@ public class RowLogbook {
                 shortest2kTime = entry.getTotalSeconds();
             }
         }
+        if (shortest2kTime == Integer.MAX_VALUE) {
+            return "None";
+        } else {
         return convertToTimeString(shortest2kTime);
+        }
     }
 
     // REQUIRES: A 6km workout entry in the logbook
-    // EFFECTS: Returns best 6km time in workout logbook
+    // EFFECTS: Returns best 6km time in workout logbook, if none
+    //          in logbook then returns "None"
     public String find6kmPersonalBest() {
         int shortest6kTime = Integer.MAX_VALUE;
         for (RowEntry entry : rowLogbook) {
@@ -85,6 +87,10 @@ public class RowLogbook {
                 shortest6kTime = entry.getTotalSeconds();
             }
         }
+        if (shortest6kTime == Integer.MAX_VALUE) {
+            return "None";
+        } else {
         return convertToTimeString(shortest6kTime);
+        }
     }
 }

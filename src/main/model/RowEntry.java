@@ -1,7 +1,5 @@
 package model;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 // A class representing a rowing workout entry having a date, distance (in meters), time (in seconds), and flag status
@@ -29,17 +27,16 @@ public class RowEntry {
 
     // EFFECTS: converts hh:mm:ss time input into seconds
     public int getTimeInSeconds(String duration) {
-        Scanner scanner = new Scanner(duration);
-        scanner.useDelimiter(":"); 
+        try (Scanner scanner = new Scanner(duration)) {
+            scanner.useDelimiter(":"); 
 
-        int hours = scanner.nextInt();
-        int minutes = scanner.nextInt();
-        int seconds = scanner.nextInt();
+            int hours = scanner.nextInt();
+            int minutes = scanner.nextInt();
+            int seconds = scanner.nextInt();
 
-        // LocalTime parsedTime = LocalTime.parse(duration, DateTimeFormatter.ofPattern("HH:mm:ss"));
-        // int totalSeconds = parsedTime.getHour() * 3600 + parsedTime.getMinute() * 60 + parsedTime.getSecond();
-        int totalSeconds = hours * 3600 + minutes * 60 + seconds;
-        return totalSeconds;
+            int totalSeconds = hours * 3600 + minutes * 60 + seconds;
+            return totalSeconds;
+        }
     }
 
     // MODIFIES: this
@@ -78,22 +75,4 @@ public class RowEntry {
     public int getRate() {
         return rate;
     }
-
-    // // setters
-    // public boolean setFlagStatus() {
-    //     return false; // stub
-    // }
-
-    // public String setDate() {
-    //     return null; // stub
-    // }
-
-    // public int setDuration() {
-    //     return 0; // stub
-    // }
-
-    // public int setDistance() {
-    //     return 0; // stub
-    // }
-
 }
