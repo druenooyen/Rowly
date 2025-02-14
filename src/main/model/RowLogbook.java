@@ -47,36 +47,44 @@ public class RowLogbook {
         return distance;
     }
 
+    public String convertToTimeString(int totalSeconds) {
+        int hours = totalSeconds / 3600;
+           int minutes = (totalSeconds % 3600) / 60;
+           int seconds = totalSeconds % 60;
+           String time = hours + ":" + minutes + ":" + seconds;
+           return time;
+       }
+
     // EFFECTS: Returns total time of all logbook entries
-    public int findTotalTime() {
+    public String findTotalTime() {
         int time = 0;
         for (RowEntry entry : rowLogbook) {
-            time += entry.getTime();
+            time += entry.getTotalSeconds();
         }
-        return time;
+        return convertToTimeString(time);
     }
 
     // REQUIRES: A 2km workout entry in the logbook
     // EFFECTS: Returns best 2km time in workout logbook
-    public int find2kmPersonalBest() {
+    public String find2kmPersonalBest() {
         int shortest2kTime = Integer.MAX_VALUE;
         for (RowEntry entry : rowLogbook) {
-            if (entry.getDistance() == 2000 && entry.getTime() < shortest2kTime) {
-                shortest2kTime = entry.getTime();
+            if (entry.getDistance() == 2000 && entry.getTotalSeconds() < shortest2kTime) {
+                shortest2kTime = entry.getTotalSeconds();
             }
         }
-        return shortest2kTime;
+        return convertToTimeString(shortest2kTime);
     }
 
     // REQUIRES: A 6km workout entry in the logbook
     // EFFECTS: Returns best 6km time in workout logbook
-    public int find6kmPersonalBest() {
+    public String find6kmPersonalBest() {
         int shortest6kTime = Integer.MAX_VALUE;
         for (RowEntry entry : rowLogbook) {
-            if (entry.getDistance() == 6000 && entry.getTime() < shortest6kTime) {
-                shortest6kTime = entry.getTime();
+            if (entry.getDistance() == 6000 && entry.getTotalSeconds() < shortest6kTime) {
+                shortest6kTime = entry.getTotalSeconds();
             }
         }
-        return shortest6kTime;
+        return convertToTimeString(shortest6kTime);
     }
 }

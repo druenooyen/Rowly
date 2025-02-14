@@ -10,14 +10,15 @@ public class RowEntryTest {
     
     @BeforeEach
     void runBefore() {
-        testRowEntry = new RowEntry("2025-02-07", 2000, 480, 30);
+        testRowEntry = new RowEntry("2025-02-07", 2000, "00:08:00", 30);
     }
 
     @Test
     void testConstructor() {
         assertEquals("2025-02-07", testRowEntry.getDate());
         assertEquals(2000, testRowEntry.getDistance());
-        assertEquals(480, testRowEntry.getTime());
+        assertEquals(480, testRowEntry.getTotalSeconds());
+        assertEquals("00:08:00", testRowEntry.getTime());
         assertEquals(30, testRowEntry.getRate());
         assertFalse(testRowEntry.getFlagStatus());
     }

@@ -83,8 +83,9 @@ public class RowTrackerApp {
         String date = scanner.nextLine();
         System.out.println("Please enter the distance of your workout (in meters)");
         int distance = scanner.nextInt();
-        System.out.println("Please enter the duration of your workout (in seconds)");
-        int duration = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Please enter the duration of your workout (in hh:mm:ss)");
+        String duration = scanner.nextLine();
         System.out.println("Please enter the average stroke rate of your workout");
         int rate = scanner.nextInt();
         scanner.nextLine();
@@ -117,7 +118,7 @@ public class RowTrackerApp {
     private void displayRowEntry(RowEntry rowEntry) {
         System.out.println("Summary of your workout on " + rowEntry.getDate() + ":");
         System.out.println("Distance: " + rowEntry.getDistance() + " meters");
-        System.out.println("Duration: " + rowEntry.getTime() + " seconds");
+        System.out.println("Duration: " + rowEntry.getTime());
         System.out.println("Stroke Rate: " + rowEntry.getRate() + " strokes per minute");
     }
 
@@ -125,7 +126,7 @@ public class RowTrackerApp {
     private void displayRowEntrySummary(RowEntry rowEntry) {
         System.out.println("Date: " + rowEntry.getDate() + " // "
                 + "Distance: " + rowEntry.getDistance() + " meters // "
-                + "Duration: " + rowEntry.getTime() + " seconds");
+                + "Duration: " + rowEntry.getTime());
     }
 
     // EFFECT: prints all workout entries in log to the screen
@@ -161,7 +162,7 @@ public class RowTrackerApp {
         System.out.println("Your logbook totals:");
         System.out.println("Total Entries: " + rowLogbook.countEntries());
         System.out.println("Total Distance: " + rowLogbook.findTotalDistance() + " meters");
-        System.out.println("Total Time: " + rowLogbook.findTotalTime() + " seconds");
+        System.out.println("Total Time: " + rowLogbook.findTotalTime());
     }
 
     // EFFECT: prints current 2k and 6k personal bests
@@ -170,8 +171,8 @@ public class RowTrackerApp {
             return;
         }
         System.out.println("Your current personal bests:");
-        System.out.println("2km: " + rowLogbook.find2kmPersonalBest() + " seconds!");
-        System.out.println("6km: " + rowLogbook.find6kmPersonalBest() + " seconds!");
+        System.out.println("2km: " + rowLogbook.find2kmPersonalBest());
+        System.out.println("6km: " + rowLogbook.find6kmPersonalBest());
     }
 
     // EFFECT: if logbook has no entries, prints message to add entries and returns
