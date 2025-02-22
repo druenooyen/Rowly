@@ -14,7 +14,10 @@ I joined the UBC rowing team as a novice rower in September 2024 and have been l
 - As a user, I want to be able to view a list of all the workouts in my workout log.
 - As a user, I want to be able to flag workouts that are personal bests or significant milestones.
 - As a user, I want to be able to see the total number of workouts completed, total distance rowed and total time rowed.
-- As a user, I want to be able to see my current personal bests.  
+- As a user, I want to be able to see my current personal bests. 
+- As a user, I want to be prompted with an option to save my logbook to a file when selecting quit from the menu.
+- As a user, I want to be prompted with an option to open my saved logbook from file upon starting the application. 
+
 
 
 
