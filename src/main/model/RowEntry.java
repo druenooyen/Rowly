@@ -2,6 +2,8 @@ package model;
 
 import java.util.Scanner;
 
+import org.json.JSONObject;
+
 // A class representing a rowing workout entry having a date, distance (in meters),
 // time (in total seconds and in hh:mm:ss), stroke rate, and flag status
 public class RowEntry {
@@ -75,4 +77,9 @@ public class RowEntry {
     public int getRate() {
         return rate;
     }
+
+    // EFFECTS: converts rowEntry to JSON object and returns it
+    public JSONObject toJson() {
+        return null; // stub
+    } 
 }

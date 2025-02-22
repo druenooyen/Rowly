@@ -3,9 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 // A class representing the logbook of rowing workout entries
 public class RowLogbook {
-    List<RowEntry> rowLogbook;
+    private List<RowEntry> rowLogbook;
 
     // EFFECTS: creates logbook to store workout entries
     public RowLogbook() {
@@ -93,4 +95,9 @@ public class RowLogbook {
     public List<RowEntry> getRowLogbook() {
         return rowLogbook;
     }
+
+     // EFFECTS: converts rowLogbook to JSON object and returns it
+    public JSONObject toJson() {
+        return null; // stub
+    } 
 }
