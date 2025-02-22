@@ -1,5 +1,9 @@
 package persistence;
 
+import java.io.FileNotFoundException;
+
+import model.RowLogbook;
+
 // A class representing a writer that writes row logbook as JSON file  
 // References code found in Json Serialization Demo
 public class JsonWriter {
@@ -11,13 +15,13 @@ public class JsonWriter {
     // MODIFIES: this
     // EFFECTS: opens a new writer, throws FileNotFound exception if
     // error when opening or creating destination file
-    public void openWriter() {
+    public void openWriter() throws FileNotFoundException {
         // stub
     }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of row logbook to destination file
-    public void writeLogbookToJsonFile() {
+    public void writeLogbookToJsonFile(RowLogbook logbook) {
         // stub
     }
 

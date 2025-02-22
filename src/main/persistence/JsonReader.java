@@ -1,18 +1,20 @@
 package persistence;
 
+import java.io.IOException;
+
 import model.RowLogbook;
 
 // A class representing a reader that reads row logbook from JSON file
 // References code found in Json Serialization Demo
 public class JsonReader {
     // EFFECTS: constructs instance of reader to read from file
-    public JsonReader() {
+    public JsonReader(String destinationFile) {
         // stub
     }
 
     // EFFECTS: reads row logbook from file and returns it, throws IOException
     // if there is an error when reading data from file
-    public RowLogbook readLogbookFromJson() {
+    public RowLogbook readLogbookFromJson() throws IOException {
         return null; // stub
     }
 
