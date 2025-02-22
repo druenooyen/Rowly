@@ -1,0 +1,20 @@
+{
+    "rowEntries": [
+        {
+            "date": "02-17-2025",
+            "distance": 2000,
+            "duration": "00:07:30",
+            "totalSeconds": 450,
+            "rate": 32,
+            "flagStatus": false
+        },
+        {
+            "date": "02-18-2025",
+            "distance": 6000,
+            "duration": "00:24:30",
+            "totalSeconds": 1470,
+            "rate": 28,
+            "flagStatus": true
+        }
+    ]
+}
