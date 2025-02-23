@@ -1,10 +1,14 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.RowEntry;
 import model.RowLogbook;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 // Creates an instance of rowing workout tracker application
 // References code found in Lab 4 Flashcard Reviewer
@@ -12,6 +16,9 @@ public class RowTrackerApp {
     private boolean isProgramRunning;
     private RowLogbook rowLogbook;
     private Scanner scanner;
+    private JsonReader reader;
+    private JsonWriter writer;
+    private static final String FILE_DESTINATION = "./data/logbook.json";
 
     // EFFECTS: runs the rowing workout tracker application
     public RowTrackerApp() {
@@ -20,6 +27,7 @@ public class RowTrackerApp {
         printDivider();
         System.out.println("Welcome to Rowly, your rowing workout tracker!");
         printDivider();
+        processReloadRequest();
 
         while (isProgramRunning) {
             processMenuCommands();
@@ -27,10 +35,21 @@ public class RowTrackerApp {
     }
 
     // processes user input to load saved logbook option
-    public void processReloadRequest() {
-        // null
-    }
+    private void processReloadRequest() {
+        System.out.println("Would you like to load your previously saved logbook? (y/n)");
+        String input = scanner.next();
+        input = input.toLowerCase();
 
+        switch (input) {
+            case "y":
+                loadRowLogbook();
+                break;
+            case "n":
+                break;
+            default:
+                System.out.println("Invalid input, please try again.");
+        }
+    }
 
     // MODIFIES: this
     // EFFECTS: inititalizes the application with starting values
@@ -38,13 +57,15 @@ public class RowTrackerApp {
         isProgramRunning = true;
         scanner = new Scanner(System.in);
         rowLogbook = new RowLogbook();
+        reader = new JsonReader(FILE_DESTINATION);
+        writer = new JsonWriter(FILE_DESTINATION);
     }
 
     // EFFECTS: processes user input to the menu
     @SuppressWarnings("methodlength")
     private void processMenuCommands() {
         displayMenuOptions();
-        String userInput = scanner.nextLine();
+        String userInput = scanner.next();
         switch (userInput) {
             case "a":
                 addNewEntry();
@@ -62,6 +83,7 @@ public class RowTrackerApp {
                 printPersonalBests();
                 break;
             case "q":
+                processSaveRequest();
                 quitApp();
                 break;
             default:
@@ -72,10 +94,22 @@ public class RowTrackerApp {
 
     // EFFECTS: processes user input to save option
     public void processSaveRequest() {
-        // null
+        System.out.println("Would you like to save your logbook to file? (y/n)");
+        String input = scanner.next();
+        input = input.toLowerCase();
+
+        switch (input) {
+            case "y":
+                saveRowLogbook();
+                break;
+            case "n":
+                break;
+            default:
+                System.out.println("Invalid input, please try again.");
+        }
     }
 
-    // EFFECTS: displays menu options to user 
+    // EFFECTS: displays menu options to user
     private void displayMenuOptions() {
         System.out.println("Please select from the following options:");
         System.out.println("a: Add a new workout entry");
@@ -91,21 +125,19 @@ public class RowTrackerApp {
     // EFFECTS: creates new RowEntry and adds to Row Logbook
     private void addNewEntry() {
         System.out.println("Please enter the date of your workout (yyyy-mm-dd)");
-        String date = scanner.nextLine();
+        String date = scanner.next();
         System.out.println("Please enter the distance of your workout (in meters)");
         int distance = scanner.nextInt();
-        scanner.nextLine();
         System.out.println("Please enter the duration of your workout (in hh:mm:ss)");
-        String duration = scanner.nextLine();
+        String duration = scanner.next();
         System.out.println("Please enter the average stroke rate of your workout");
         int rate = scanner.nextInt();
-        scanner.nextLine();
         printDivider();
 
         RowEntry rowEntry = new RowEntry(date, distance, duration, rate);
         displayRowEntry(rowEntry);
         System.out.println("Add to logbook? (y/n)");
-        String userInput = scanner.nextLine();
+        String userInput = scanner.next();
         if (userInput.equals("y")) {
             rowLogbook.addEntry(rowEntry);
             System.out.println("New entry successfully created!");
@@ -117,7 +149,7 @@ public class RowTrackerApp {
     // EFFECTS: flags given entry depending on user input
     private void flagAddedEntry(RowEntry rowEntry) {
         System.out.println("Would you like to flag this workout? (y/n)");
-        String userInput = scanner.nextLine();
+        String userInput = scanner.next();
         if (userInput.equals("y")) {
             rowEntry.flagWorkout();
             System.out.println("Workout has been flagged!");
@@ -151,8 +183,8 @@ public class RowTrackerApp {
         }
     }
 
-    // EFFECTS: prints all flagged workout entries in log to the screen, prints 
-    //          message to user if logbook has no entries or no flagged entries
+    // EFFECTS: prints all flagged workout entries in log to the screen, prints
+    // message to user if logbook has no entries or no flagged entries
     private void printFlaggedEntries() {
         if (isEmptyLogbook()) {
             return;
@@ -174,7 +206,7 @@ public class RowTrackerApp {
     }
 
     // EFFECTS: prints total workouts, total distance, and total time
-    //         of all entries in logbook
+    // of all entries in logbook
     private void printLogbookTotals() {
         if (isEmptyLogbook()) {
             return;
@@ -196,7 +228,7 @@ public class RowTrackerApp {
     }
 
     // EFFECTS: if logbook has no entries, prints user message and returns
-    //         true, otherwise returns false
+    // true, otherwise returns false
     private boolean isEmptyLogbook() {
         if (rowLogbook.getRowLogbook().isEmpty()) {
             System.out.println("Your logbook is empty! Please add a new entry.");
@@ -220,11 +252,24 @@ public class RowTrackerApp {
     // MODIFIES: this
     // EFFECTS: loads row logbook from file
     public void loadRowLogbook() {
-        // null
+        try {
+            rowLogbook = reader.readLogbookFromJson();
+            System.out.println("Logbook has been successfully loaded from " + FILE_DESTINATION);
+            printDivider();
+        } catch (IOException e) {
+            System.out.println("Unable to load logbook from " + FILE_DESTINATION);
+        }
     }
 
     // EFFECTS: saves row logbook to file
     public void saveRowLogbook() {
-        // null
+        try {
+            writer.openWriter();
+            writer.writeLogbookToJsonFile(rowLogbook);
+            writer.closeWriter();
+            System.out.println("Logbook has been successfully saved to " + FILE_DESTINATION);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save logbook to " + FILE_DESTINATION);
+        }
     }
 }
