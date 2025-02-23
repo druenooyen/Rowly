@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 // A class representing the logbook of rowing workout entries
@@ -60,7 +61,7 @@ public class RowLogbook {
     }
 
     // EFFECTS: returns shortest 2km time in workout logbook, if none
-    //          in logbook then returns "None"
+    // in logbook then returns "None"
     public String find2kmPersonalBest() {
         int shortest2kTime = Integer.MAX_VALUE;
         for (RowEntry entry : rowLogbook) {
@@ -76,7 +77,7 @@ public class RowLogbook {
     }
 
     // EFFECTS: returns shortest 6km time in workout logbook, if none
-    //          in logbook then returns "None"
+    // in logbook then returns "None"
     public String find6kmPersonalBest() {
         int shortest6kTime = Integer.MAX_VALUE;
         for (RowEntry entry : rowLogbook) {
@@ -96,8 +97,15 @@ public class RowLogbook {
         return rowLogbook;
     }
 
-     // EFFECTS: converts rowLogbook to JSON object and returns it
+    // EFFECTS: converts rowLogbook to JSON object and returns it
     public JSONObject toJson() {
-        return null; // stub
-    } 
+        JSONArray jsonArray = new JSONArray();
+        for (RowEntry e : rowLogbook) {
+            jsonArray.put(e.toJson());
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("rowEntries", jsonArray);
+
+        return jsonObject;
+    }
 }

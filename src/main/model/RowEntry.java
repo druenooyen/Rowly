@@ -80,6 +80,15 @@ public class RowEntry {
 
     // EFFECTS: converts rowEntry to JSON object and returns it
     public JSONObject toJson() {
-        return null; // stub
+        JSONObject jsonObject = new JSONObject();
+        
+        jsonObject.put("date", date);
+        jsonObject.put("distance", distance);
+        jsonObject.put("duration", duration);
+        jsonObject.put("totalSeconds", totalSeconds);
+        jsonObject.put("rate", rate);
+        jsonObject.put("flagStatus", flagStatus);
+
+        return jsonObject;
     } 
 }

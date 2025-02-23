@@ -1,0 +1,18 @@
+{"rowEntries": [
+    {
+        "date": "01-01-2000",
+        "duration": "00:08:00",
+        "distance": 2000,
+        "rate": 24,
+        "flagStatus": false,
+        "totalSeconds": 480
+    },
+    {
+        "date": "12-25-2010",
+        "duration": "00:45:10",
+        "distance": 10000,
+        "rate": 18,
+        "flagStatus": false,
+        "totalSeconds": 2710
+    }
+]}

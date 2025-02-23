@@ -19,7 +19,7 @@ public class JsonWriterTest extends JsonTest {
 
     @Test
     void testWriterIllegalFile() {
-        writer = new JsonWriter("./data/123ILLEGALfile");
+        writer = new JsonWriter("./data/?Illegal:filename.json");
         try {
             writer.openWriter();
             fail("Did not throw FileNotFoundException as expected");
