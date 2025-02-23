@@ -26,6 +26,12 @@ public class RowTrackerApp {
         }
     }
 
+    // processes user input to load saved logbook option
+    public void processReloadRequest() {
+        // null
+    }
+
+
     // MODIFIES: this
     // EFFECTS: inititalizes the application with starting values
     private void init() {
@@ -62,6 +68,11 @@ public class RowTrackerApp {
                 System.out.println("Invalid input, please try again.");
         }
         printDivider();
+    }
+
+    // EFFECTS: processes user input to save option
+    public void processSaveRequest() {
+        // null
     }
 
     // EFFECTS: displays menu options to user 
@@ -206,4 +217,14 @@ public class RowTrackerApp {
         System.out.println("-------------------------------------------");
     }
 
+    // MODIFIES: this
+    // EFFECTS: loads row logbook from file
+    public void loadRowLogbook() {
+        // null
+    }
+
+    // EFFECTS: saves row logbook to file
+    public void saveRowLogbook() {
+        // null
+    }
 }
