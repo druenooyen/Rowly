@@ -13,7 +13,7 @@ import model.RowEntry;
 import model.RowLogbook;
 
 // A class representing a reader that reads row logbook from JSON file
-// References code found in Json Serialization Demo
+// Adapted from code found in Json Serialization Demo
 public class JsonReader {
     String sourceFile;
 

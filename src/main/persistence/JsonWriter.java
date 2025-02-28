@@ -1,16 +1,15 @@
 package persistence;
 
+import model.RowLogbook;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.File;
 
 import org.json.JSONObject;
 
-import java.io.File;
-
-import model.RowLogbook;
-
 // A class representing a writer that writes row logbook as JSON file  
-// References code found in Json Serialization Demo
+// Adapted from code found in Json Serialization Demo
 public class JsonWriter {
     private PrintWriter writer;
     private String destinationFile;
@@ -30,8 +29,8 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of row logbook to destination file
-    public void writeLogbookToJsonFile(RowLogbook logbook) {
-        JSONObject jsonObject = logbook.toJson();
+    public void writeLogbookToJsonFile(RowLogbook rowLogbook) {
+        JSONObject jsonObject = rowLogbook.toJson();
         writer.print(jsonObject.toString(INDENTATION_FACTOR));
     }
 
