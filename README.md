@@ -18,6 +18,15 @@ I joined the UBC rowing team as a novice rower in September 2024 and have been l
 - As a user, I want to be prompted with an option to save my logbook to a file when selecting quit from the menu.
 - As a user, I want to be prompted with an option to open my saved logbook from file upon starting the application. 
 
+## Instructions for End User
+
+- To add a new entry to their Logbook, the user can select "Add an Entry" from the dropdown menu, fill in their data and click "Add".
+- To view all the entries in the logbook, the user can select the "View all Entries" from the dropdown menu.
+- To view personal bests, the user can select the "View personal bests" from the dropdown menu.
+- You can locate the visual component on a splash screen upon opening the app.
+- You can save the state of the application by pressing quit, which will prompt a pop up.
+- You can reload the state of the application via the pop up upon opening the application.
+
 
 
 
