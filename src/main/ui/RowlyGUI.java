@@ -2,8 +2,8 @@ package ui;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.*;
 
+import model.RowEntry;
 import model.RowLogbook;
 
 import java.awt.event.*;
@@ -13,28 +13,27 @@ public class RowlyGUI extends JFrame {
     private JLabel title;
     private JPanel titleMenuPanel;
     private JPanel actionPanel;
-    private JPanel newEntryPanel;
+    private JPanel rowEntryPanel;
     private JPanel logbookTotalsPanel;
     private JPanel personalBestsPanel;
     private RowLogbook logbook;
+    private JButton addButton;
 
-    private String[] options = { "Add New Entry", "View Logbook Totals", "View Personal Bests" };
+    private static String[] options = { "Add New Entry", "View Logbook Totals", "View Personal Bests" };
 
+    @SuppressWarnings("methodlength")
     public RowlyGUI() {
         super("Rowly Rowing Tracker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(500, 500));
-        setLayout(new FlowLayout());
+        setPreferredSize(new Dimension(400, 500));
+        setLayout(new BorderLayout());
 
-        // Create the logbook and GUI for it
         logbook = new RowLogbook();
 
-        // Create the top panel
         titleMenuPanel = new JPanel(new BorderLayout());
         title = new JLabel("Welcome to Rowly! Please select an option:");
         titleMenuPanel.add(title, BorderLayout.NORTH);
 
-        // Create the selection of user actions
         final JComboBox userActions = new JComboBox(options);
         userActions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -45,71 +44,130 @@ public class RowlyGUI extends JFrame {
 
         titleMenuPanel.add(userActions, BorderLayout.SOUTH);
 
-        // Create the bottom panel options
         actionPanel = new JPanel();
-        newEntryPanel = makeNewEntryPanel();
-        logbookTotalsPanel = makeLogbookTotalsPanel();
-        personalBestsPanel = makePersonalBestsPanel();
-        actionPanel.add(newEntryPanel, BorderLayout.CENTER);
-        actionPanel.add(logbookTotalsPanel, BorderLayout.CENTER);
-        actionPanel.add(personalBestsPanel, BorderLayout.CENTER);
-
+        makeNewEntryPanel();
+        makeLogbookTotalsPanel();
+        makePersonalBestsPanel();
         blankPanel(actionPanel);
 
-        add(titleMenuPanel);
-        add(actionPanel);
+        add(titleMenuPanel, BorderLayout.NORTH);
+        add(actionPanel, BorderLayout.CENTER);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
     }
 
-
+    // MODIFIES: this
     // EFFECTS: Makes panel for user to input new row entry
-    public JPanel makeNewEntryPanel() {
-        return new JPanel(); //stub
-    }
-    
+    @SuppressWarnings("methodlength") 
+    public void makeNewEntryPanel() {
+        rowEntryPanel = new JPanel();
+        rowEntryPanel.setLayout(new BoxLayout(rowEntryPanel, BoxLayout.Y_AXIS));
 
+        JTextField dateField = new JTextField(15);
+        JTextField distanceField = new JTextField(15);
+        JTextField durationField = new JTextField(15);
+        JTextField rateField = new JTextField(5);
+        addButton = new JButton("Add Entry to Logbook");
+
+        rowEntryPanel.add(new JLabel("Enter Date:"));
+        rowEntryPanel.add(dateField);
+        rowEntryPanel.add(new JLabel("Enter Distance:"));
+        rowEntryPanel.add(distanceField);
+        rowEntryPanel.add(new JLabel("Enter Duration:"));
+        rowEntryPanel.add(durationField);
+        rowEntryPanel.add(new JLabel("Enter Rate:"));
+        rowEntryPanel.add(rateField);
+        rowEntryPanel.add(addButton);
+        actionPanel.add(rowEntryPanel);
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get user input from fields
+                String date = dateField.getText();
+                int distance = Integer.parseInt(distanceField.getText());
+                String duration = durationField.getText();
+                int rate = Integer.parseInt(rateField.getText());
+
+                RowEntry newEntry = new RowEntry(date, distance, duration, rate);
+                logbook.addEntry(newEntry);
+            }
+        });
+    }
+
+    // MODIFIES: this
     // EFFECTS: Makes panel for user to view logbook totals
-      public JPanel makeLogbookTotalsPanel() {
-        return new JPanel(); //stub
+    public void makeLogbookTotalsPanel() {
+        logbookTotalsPanel = new JPanel();
+        logbookTotalsPanel.setLayout(new BoxLayout(logbookTotalsPanel, BoxLayout.Y_AXIS));
+
+        int totalDistance = logbook.findTotalDistance();
+        logbookTotalsPanel.add(new JLabel("Your total distance:" + totalDistance));
+
+        String totalTime = logbook.findTotalTime();
+        logbookTotalsPanel.add(new JLabel("Your total time:" + totalTime));
+
+        actionPanel.add(logbookTotalsPanel);
     }
 
+    // MODIFIES: this
     // EFFECTS: Makes panel for user to view personal bests
-      public JPanel makePersonalBestsPanel() {
-        return new JPanel(); //stub
+    public void makePersonalBestsPanel() {
+        personalBestsPanel = new JPanel();
+        personalBestsPanel.setLayout(new BoxLayout(personalBestsPanel, BoxLayout.Y_AXIS));
+
+        String personalBest2km = logbook.find2kmPersonalBest();
+        personalBestsPanel.add(new JLabel("Your current 2km personal best:" + personalBest2km));
+
+        String personalBest6km = logbook.find6kmPersonalBest();
+        personalBestsPanel.add(new JLabel("Your total time:" + personalBest6km));
+
+        actionPanel.add(personalBestsPanel);
     }
 
-     // EFFECTS: Makes all action panels invisible
-     public void blankPanel(JPanel inputPanel) {
-        //stub
+    // MODIFIES: this
+    // EFFECTS: Makes all action panels invisible
+    public void blankPanel(JPanel inputPanel) {
+        rowEntryPanel.setVisible(false);
+        logbookTotalsPanel.setVisible(false);
+        personalBestsPanel.setVisible(false);
     }
-
 
     // EFFECTS: Displays appropriate GUI based on userChoice
     public void displayBasedOnSelection(String userChoice) {
-        if (userChoice.equals("View Logbook Totals"))
+        if (userChoice.equals("View Logbook Totals")) {
             displayLogbookTotals();
-        else if (userChoice.equals("View Personal Bests"))
+        } else if (userChoice.equals("View Personal Bests")) {
             displayPersonalBests();
-        else
+        } else {
             displayAddEntry();
+        }
     }
 
+    // MODIFIES: this
     // EFFECTS: Displays area for user to input new row entry
     public void displayAddEntry() {
-        // stub
+        logbookTotalsPanel.setVisible(false);
+        personalBestsPanel.setVisible(false);
+        rowEntryPanel.setVisible(true);
     }
 
+    // MODIFIES: this
     // EFFECTS: Displays totals for all entries in logbook
     public void displayLogbookTotals() {
-        // stub
+        rowEntryPanel.setVisible(false);
+        personalBestsPanel.setVisible(false);
+        logbookTotalsPanel.setVisible(true);
     }
 
+    // MODIFIES: this
     // EFFECTS: Displays personal bests
     public void displayPersonalBests() {
-        // stub
+        rowEntryPanel.setVisible(false);
+        logbookTotalsPanel.setVisible(false);
+        personalBestsPanel.setVisible(true);
     }
 
     public static void main(String[] args) {
