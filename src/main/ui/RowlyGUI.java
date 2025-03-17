@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 import model.RowEntry;
 import model.RowLogbook;
@@ -23,7 +24,7 @@ public class RowlyGUI extends JFrame {
     JTextField distanceField;
     JTextField durationField;
     JTextField rateField;
-    
+
     private RowLogbook logbook;
     private JButton addButton;
 
@@ -32,7 +33,7 @@ public class RowlyGUI extends JFrame {
     public RowlyGUI() {
         super("Rowly Rowing Tracker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(400, 500));
+        setPreferredSize(new Dimension(400, 300));
         setLayout(new BorderLayout());
 
         runSplashScreen();
@@ -81,17 +82,16 @@ public class RowlyGUI extends JFrame {
         splashScreen.setSize(400, 500);
         splashScreen.setLocationRelativeTo(null);
 
-        
         ImageIcon rowlyLogo = new ImageIcon("src/main/resources/rowly_logo3.png");
         Image scaledImage = rowlyLogo.getImage().getScaledInstance(400, 500, Image.SCALE_SMOOTH);
         JLabel splashImage = new JLabel();
         splashImage.setIcon(new ImageIcon(scaledImage));
-        
+
         splashScreen.add(splashImage);
         splashScreen.setVisible(true);
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             System.err.println("Thread was interrupted.");
         }
@@ -151,7 +151,7 @@ public class RowlyGUI extends JFrame {
         String time = rowEntry.getTime();
         int rate = rowEntry.getRate();
 
-        return "Date: " + date + " // Distance: " + distance + " // Time: " + time + " // Rate: " + rate;
+        return "Date: " + date + " // Distance: " + distance + "m // Time: " + time + " // Rate: " + rate;
     }
 
     // // MODIFIES: this
@@ -174,22 +174,23 @@ public class RowlyGUI extends JFrame {
     // EFFECTS: Makes panel for user to view personal bests
     public void makePersonalBestsPanel() {
         personalBestsPanel = new JPanel();
-        personalBestsPanel.setLayout(new BoxLayout(personalBestsPanel, BoxLayout.Y_AXIS));
+        personalBestsPanel.setLayout(new GridLayout(4, 1, 5, 5));
+        updatePersonalBests();
         actionPanel.add(personalBestsPanel, "Personal Bests");
     }
 
     // EFFECTS: Displays appropriate GUI based on userChoice
     public void displayBasedOnSelection(String userChoice) {
         if (userChoice.equals("Logbook Totals")) {
-            updateLogbookTotals(); 
+            updateLogbookTotals();
             actionPanelLayout.show(actionPanel, "Logbook Totals");
 
         } else if (userChoice.equals("View Entries")) {
-            updateAllEntries();  
+            updateAllEntries();
             actionPanelLayout.show(actionPanel, "View Entries");
 
         } else if (userChoice.equals("Personal Bests")) {
-            updatePersonalBests();  
+            updatePersonalBests();
             actionPanelLayout.show(actionPanel, "Personal Bests");
 
         } else {
@@ -222,8 +223,27 @@ public class RowlyGUI extends JFrame {
     // EFFECTS: Displays personal bests
     public void updatePersonalBests() {
         personalBestsPanel.removeAll();
-        personalBestsPanel.add(new JLabel("Your 2km personal best: " + logbook.find2kmPersonalBest()));
-        personalBestsPanel.add(new JLabel("Your 6km personal best: " + logbook.find6kmPersonalBest()));
+        JLabel best2km = new JLabel("🏅 Your 2km personal best 🏅", SwingConstants.CENTER);
+        JLabel best2kmValue = new JLabel(logbook.find2kmPersonalBest(), SwingConstants.CENTER);
+        JLabel best6km = new JLabel("🏅 Your 6km personal best 🏅", SwingConstants.CENTER);
+        JLabel best6kmValue = new JLabel(logbook.find6kmPersonalBest(), SwingConstants.CENTER);
+        Font pbFont = new Font("SansSerif", Font.BOLD, 18);
+        best2km.setFont(pbFont);
+        best6kmValue.setFont(pbFont);
+        best2kmValue.setFont(pbFont);
+        best6km.setFont(pbFont);
+        personalBestsPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.GRAY, 2),
+                "🏋️ Personal Bests 🏋️",
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                new Font("SansSerif", Font.BOLD, 20),
+                Color.BLACK));
+
+        personalBestsPanel.add(best2km);
+        personalBestsPanel.add(best2kmValue);
+        personalBestsPanel.add(best6km);
+        personalBestsPanel.add(best6kmValue);
         personalBestsPanel.revalidate();
         personalBestsPanel.repaint();
     }
