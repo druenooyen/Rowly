@@ -15,16 +15,20 @@ public class RowlyGUI extends JFrame {
     private CardLayout actionPanelLayout;
     private JPanel actionPanel;
     private JPanel rowEntryPanel;
+    private JPanel allEntriesPanel;
     private JPanel logbookTotalsPanel;
     private JPanel personalBestsPanel;
-    
 
+    JTextField dateField;
+    JTextField distanceField;
+    JTextField durationField;
+    JTextField rateField;
+    
     private RowLogbook logbook;
     private JButton addButton;
 
-    private static String[] options = { "Add New Entry", "View Logbook Totals", "View Personal Bests" };
+    private String[] options = { "Add Entry", "View Entries", "Logbook Totals", "Personal Bests" };
 
-    @SuppressWarnings("methodlength")
     public RowlyGUI() {
         super("Rowly Rowing Tracker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -32,12 +36,8 @@ public class RowlyGUI extends JFrame {
         setLayout(new BorderLayout());
 
         runSplashScreen();
-
         logbook = new RowLogbook();
-
-        titleMenuPanel = new JPanel(new BorderLayout());
-        title = new JLabel("Welcome to Rowly! Please select an option:");
-        titleMenuPanel.add(title, BorderLayout.NORTH);
+        makeTitleMenuPanel();
 
         final JComboBox userActions = new JComboBox(options);
         userActions.addActionListener(new ActionListener() {
@@ -48,12 +48,7 @@ public class RowlyGUI extends JFrame {
         });
 
         titleMenuPanel.add(userActions, BorderLayout.SOUTH);
-
-        actionPanelLayout = new CardLayout();
-        actionPanel = new JPanel(actionPanelLayout);
-        makeRowEntryPanel();
-        makeLogbookTotalsPanel();
-        makePersonalBestsPanel();
+        makeActionPanel();
 
         add(titleMenuPanel, BorderLayout.NORTH);
         add(actionPanel, BorderLayout.CENTER);
@@ -63,20 +58,42 @@ public class RowlyGUI extends JFrame {
         setResizable(false);
     }
 
+    // EFFECTS: makes all components of title menu panel
+    public void makeTitleMenuPanel() {
+        titleMenuPanel = new JPanel(new BorderLayout());
+        title = new JLabel("Welcome to Rowly! Please select an option:");
+        titleMenuPanel.add(title, BorderLayout.NORTH);
+    }
+
+    // EFFECTS: make all components for action panel
+    public void makeActionPanel() {
+        actionPanelLayout = new CardLayout();
+        actionPanel = new JPanel(actionPanelLayout);
+        makeRowEntryPanel();
+        makeAllEntriesPanel();
+        makeLogbookTotalsPanel();
+        makePersonalBestsPanel();
+    }
+
     // EFFECTS: shows splash screen with rowly logo for 3 seconds
     public void runSplashScreen() {
         JWindow splashScreen = new JWindow();
         splashScreen.setSize(400, 500);
         splashScreen.setLocationRelativeTo(null);
+
+        
         ImageIcon rowlyLogo = new ImageIcon("src/main/resources/rowly_logo3.png");
-        JLabel splashImage = new JLabel(rowlyLogo);
+        Image scaledImage = rowlyLogo.getImage().getScaledInstance(400, 500, Image.SCALE_SMOOTH);
+        JLabel splashImage = new JLabel();
+        splashImage.setIcon(new ImageIcon(scaledImage));
+        
         splashScreen.add(splashImage);
         splashScreen.setVisible(true);
 
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
-
+            System.err.println("Thread was interrupted.");
         }
 
         splashScreen.dispose();
@@ -84,27 +101,17 @@ public class RowlyGUI extends JFrame {
 
     // MODIFIES: this
     // EFFECTS: Makes panel for user to input new row entry
-    @SuppressWarnings("methodlength")
     public void makeRowEntryPanel() {
         rowEntryPanel = new JPanel();
         rowEntryPanel.setLayout(new BoxLayout(rowEntryPanel, BoxLayout.Y_AXIS));
 
-        JTextField dateField = new JTextField(15);
-        JTextField distanceField = new JTextField(15);
-        JTextField durationField = new JTextField(15);
-        JTextField rateField = new JTextField(5);
+        dateField = new JTextField(15);
+        distanceField = new JTextField(15);
+        durationField = new JTextField(15);
+        rateField = new JTextField(5);
         addButton = new JButton("Add Entry to Logbook");
 
-        rowEntryPanel.add(new JLabel("Enter Date:"));
-        rowEntryPanel.add(dateField);
-        rowEntryPanel.add(new JLabel("Enter Distance:"));
-        rowEntryPanel.add(distanceField);
-        rowEntryPanel.add(new JLabel("Enter Duration:"));
-        rowEntryPanel.add(durationField);
-        rowEntryPanel.add(new JLabel("Enter Rate:"));
-        rowEntryPanel.add(rateField);
-        rowEntryPanel.add(addButton);
-        actionPanel.add(rowEntryPanel, "Add New Entry");
+        addComponentsToRowEntryPanel();
 
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -122,6 +129,21 @@ public class RowlyGUI extends JFrame {
         });
     }
 
+    // MODIFIES: this
+    // EFFECTS: Adds all panels and labels to rowentrypanel
+    public void addComponentsToRowEntryPanel() {
+        rowEntryPanel.add(new JLabel("Enter Date (yyyy-mm-dd):"));
+        rowEntryPanel.add(dateField);
+        rowEntryPanel.add(new JLabel("Enter Distance (in meters):"));
+        rowEntryPanel.add(distanceField);
+        rowEntryPanel.add(new JLabel("Enter Duration (hh:mm:ss):"));
+        rowEntryPanel.add(durationField);
+        rowEntryPanel.add(new JLabel("Enter Rate:"));
+        rowEntryPanel.add(rateField);
+        rowEntryPanel.add(addButton);
+        actionPanel.add(rowEntryPanel, "Add Entry");
+    }
+
     // EFFECTS: Generates written summary of rowEntry
     public String displayEntry(RowEntry rowEntry) {
         String date = rowEntry.getDate();
@@ -132,12 +154,19 @@ public class RowlyGUI extends JFrame {
         return "Date: " + date + " // Distance: " + distance + " // Time: " + time + " // Rate: " + rate;
     }
 
+    // // MODIFIES: this
+    // // EFFECTS: Makes panel for user to view all logbook entries
+    public void makeAllEntriesPanel() {
+        allEntriesPanel = new JPanel();
+        actionPanel.add(allEntriesPanel, "View Entries");
+    }
+
     // MODIFIES: this
     // EFFECTS: Makes panel for user to view logbook totals
     public void makeLogbookTotalsPanel() {
         logbookTotalsPanel = new JPanel();
         logbookTotalsPanel.setLayout(new BoxLayout(logbookTotalsPanel, BoxLayout.Y_AXIS));
-        actionPanel.add(logbookTotalsPanel, "View Logbook Totals");
+        actionPanel.add(logbookTotalsPanel, "Logbook Totals");
 
     }
 
@@ -146,21 +175,25 @@ public class RowlyGUI extends JFrame {
     public void makePersonalBestsPanel() {
         personalBestsPanel = new JPanel();
         personalBestsPanel.setLayout(new BoxLayout(personalBestsPanel, BoxLayout.Y_AXIS));
-        actionPanel.add(personalBestsPanel, "View Personal Bests");
+        actionPanel.add(personalBestsPanel, "Personal Bests");
     }
 
     // EFFECTS: Displays appropriate GUI based on userChoice
     public void displayBasedOnSelection(String userChoice) {
-        if (userChoice.equals("View Logbook Totals")) {
+        if (userChoice.equals("Logbook Totals")) {
             updateLogbookTotals(); 
-            actionPanelLayout.show(actionPanel, "View Logbook Totals");
+            actionPanelLayout.show(actionPanel, "Logbook Totals");
 
-        } else if (userChoice.equals("View Personal Bests")) {
+        } else if (userChoice.equals("View Entries")) {
+            updateAllEntries();  
+            actionPanelLayout.show(actionPanel, "View Entries");
+
+        } else if (userChoice.equals("Personal Bests")) {
             updatePersonalBests();  
-            actionPanelLayout.show(actionPanel, "View Personal Bests");
+            actionPanelLayout.show(actionPanel, "Personal Bests");
 
         } else {
-            actionPanelLayout.show(actionPanel, "Add New Entry");
+            actionPanelLayout.show(actionPanel, "Add Entry");
         }
     }
 
@@ -172,6 +205,17 @@ public class RowlyGUI extends JFrame {
         logbookTotalsPanel.add(new JLabel("Your total time: " + logbook.findTotalTime()));
         logbookTotalsPanel.revalidate();
         logbookTotalsPanel.repaint();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Displays all entries in logbook
+    public void updateAllEntries() {
+        allEntriesPanel.removeAll();
+        for (RowEntry r : logbook.getRowLogbook()) {
+            allEntriesPanel.add(new JLabel(displayEntry(r)));
+        }
+        allEntriesPanel.revalidate();
+        allEntriesPanel.repaint();
     }
 
     // MODIFIES: this
