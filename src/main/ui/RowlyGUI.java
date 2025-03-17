@@ -165,7 +165,7 @@ public class RowlyGUI extends JFrame {
     // EFFECTS: Makes panel for user to view logbook totals
     public void makeLogbookTotalsPanel() {
         logbookTotalsPanel = new JPanel();
-        logbookTotalsPanel.setLayout(new BoxLayout(logbookTotalsPanel, BoxLayout.Y_AXIS));
+        logbookTotalsPanel.setLayout(new GridLayout(4, 1, 5, 5));
         actionPanel.add(logbookTotalsPanel, "Logbook Totals");
 
     }
@@ -202,8 +202,28 @@ public class RowlyGUI extends JFrame {
     // EFFECTS: Displays totals for all entries in logbook
     public void updateLogbookTotals() {
         logbookTotalsPanel.removeAll();
-        logbookTotalsPanel.add(new JLabel("Your total distance: " + logbook.findTotalDistance()));
-        logbookTotalsPanel.add(new JLabel("Your total time: " + logbook.findTotalTime()));
+        JLabel totalDistance = new JLabel("Your total distance:", SwingConstants.CENTER);
+        JLabel totalDistanceValue = new JLabel(" " + logbook.findTotalDistance(), SwingConstants.CENTER);
+        JLabel totalTime = new JLabel("Your total time:", SwingConstants.CENTER);
+        JLabel totalTimeValue = new JLabel(" " + logbook.findTotalTime(), SwingConstants.CENTER);
+        Font pbFont = new Font("SansSerif", Font.BOLD, 18);
+        totalDistance.setFont(pbFont);
+        totalDistanceValue.setFont(pbFont);
+        totalTime.setFont(pbFont);
+        totalTimeValue.setFont(pbFont);
+
+        logbookTotalsPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.GRAY, 2),
+                "🏋️ Your Totals 🏋️",
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                new Font("SansSerif", Font.BOLD, 20),
+                Color.BLACK));
+
+        logbookTotalsPanel.add(totalDistance);
+        logbookTotalsPanel.add(totalDistanceValue);
+        logbookTotalsPanel.add(totalTime);
+        logbookTotalsPanel.add(totalTimeValue);
         logbookTotalsPanel.revalidate();
         logbookTotalsPanel.repaint();
     }
