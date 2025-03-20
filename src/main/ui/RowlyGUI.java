@@ -6,8 +6,12 @@ import javax.swing.border.TitledBorder;
 
 import model.RowEntry;
 import model.RowLogbook;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class RowlyGUI extends JFrame {
 
@@ -20,13 +24,15 @@ public class RowlyGUI extends JFrame {
     private JPanel logbookTotalsPanel;
     private JPanel personalBestsPanel;
 
-    JTextField dateField;
-    JTextField distanceField;
-    JTextField durationField;
-    JTextField rateField;
+    private JTextField dateField;
+    private JTextField distanceField;
+    private JTextField durationField;
+    private JTextField rateField;
 
     private RowLogbook logbook;
     private JButton addButton;
+
+    private static final String FILE_DESTINATION = "./data/logbook.json";
 
     private String[] options = { "Add Entry", "View Entries", "Logbook Totals", "Personal Bests" };
 
@@ -35,22 +41,18 @@ public class RowlyGUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(400, 300));
         setLayout(new BorderLayout());
-
-        runSplashScreen();
-        logbook = new RowLogbook();
-        makeTitleMenuPanel();
-
-        final JComboBox userActions = new JComboBox(options);
-        userActions.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String userChoice = (String) userActions.getSelectedItem();
-                displayBasedOnSelection(userChoice);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                handleWindowClosing();
             }
         });
 
-        titleMenuPanel.add(userActions, BorderLayout.SOUTH);
+        runSplashScreen();
+        logbook = new RowLogbook();
+        loadDataPopUp();
+        makeTitleMenuPanel();
         makeActionPanel();
-
         add(titleMenuPanel, BorderLayout.NORTH);
         add(actionPanel, BorderLayout.CENTER);
         pack();
@@ -59,11 +61,68 @@ public class RowlyGUI extends JFrame {
         setResizable(false);
     }
 
+    // EFFECTS: prompts user to load previous data
+    public void loadDataPopUp() {
+        int result = JOptionPane.showConfirmDialog(null,
+                "Do you want to load previous data?", "Load Data",
+                JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Loading previous data...");
+            JsonReader reader = new JsonReader(FILE_DESTINATION);
+            try {
+                this.logbook = reader.readLogbookFromJson();
+            } catch (IOException e) {
+                System.out.println("Could not load data from file");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Starting fresh.");
+        }
+    }
+
+    // EFFECTS: prompts user to save data to file when they close the window
+    private void handleWindowClosing() {
+        int option = JOptionPane.showConfirmDialog(
+                this, // Since this class extends JFrame, we use "this"
+                "Do you want to save changes before exiting?",
+                "Save Changes?",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (option == JOptionPane.YES_OPTION) {
+            saveChanges();
+            dispose();
+        } else if (option == JOptionPane.NO_OPTION) {
+            dispose();
+        }
+    }
+
+    // EFFECTS: saves row entries to json file
+    public void saveChanges() {
+        JsonWriter writer = new JsonWriter(FILE_DESTINATION);
+        try {
+            writer.openWriter();
+        } catch (FileNotFoundException e) {
+            System.out.println("File destination not found");
+        }
+        writer.writeLogbookToJsonFile(logbook);
+        writer.closeWriter();
+    }
+
     // EFFECTS: makes all components of title menu panel
     public void makeTitleMenuPanel() {
         titleMenuPanel = new JPanel(new BorderLayout());
         title = new JLabel("Welcome to Rowly! Please select an option:");
         titleMenuPanel.add(title, BorderLayout.NORTH);
+
+        final JComboBox userActions = new JComboBox(options);
+        userActions.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String userChoice = (String) userActions.getSelectedItem();
+                displayBasedOnSelection(userChoice);
+            }
+        });
+        titleMenuPanel.add(userActions, BorderLayout.SOUTH);
     }
 
     // EFFECTS: make all components for action panel
