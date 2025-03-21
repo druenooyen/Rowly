@@ -13,7 +13,6 @@ import java.io.IOException;
 
 public class RowlyGUI extends JFrame {
 
-    private JLabel title;
     private JPanel titleMenuPanel;
     private ActionPanelGUI actionPanel;
     private RowLogbook logbook;
@@ -38,7 +37,7 @@ public class RowlyGUI extends JFrame {
 
         runSplashScreen();
         logbook = new RowLogbook();
-        
+
         makeTitleMenuPanel();
         actionPanel = new ActionPanelGUI(logbook);
         add(titleMenuPanel, BorderLayout.NORTH);
@@ -51,6 +50,7 @@ public class RowlyGUI extends JFrame {
         loadDataPopUp();
     }
 
+    // MODIFIES: this
     // EFFECTS: prompts user to load previous data
     public void loadDataPopUp() {
         int result = JOptionPane.showConfirmDialog(null,
@@ -71,7 +71,7 @@ public class RowlyGUI extends JFrame {
     // EFFECTS: prompts user to save data to file when they close the window
     private void handleWindowClosing() {
         int option = JOptionPane.showConfirmDialog(
-                this, 
+                this,
                 "Do you want to save your entries to file?",
                 "Save Changes?",
                 JOptionPane.YES_NO_OPTION,
@@ -85,6 +85,7 @@ public class RowlyGUI extends JFrame {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: saves row entries to json file
     public void saveChanges() {
         JsonWriter writer = new JsonWriter(FILE_DESTINATION);
@@ -97,11 +98,22 @@ public class RowlyGUI extends JFrame {
         writer.closeWriter();
     }
 
-    // EFFECTS: makes all components of title menu panel
+    // MODIFIES: this
+    // EFFECTS: makes all components of title and navigation bar at top of window
     public void makeTitleMenuPanel() {
         titleMenuPanel = new JPanel(new BorderLayout());
-        title = new JLabel("Welcome to Rowly! Please select an option:");
-        titleMenuPanel.add(title, BorderLayout.NORTH);
+        titleMenuPanel.setBackground(Color.WHITE);
+
+        ImageIcon wave = new ImageIcon("src/main/resources/wave.png");
+        Image scaledImage = wave.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        JLabel waveImageLeft = new JLabel(scaledIcon);
+        JLabel waveImageRight = new JLabel(scaledIcon);
+
+        titleMenuPanel.add(makeTitlePanel(), BorderLayout.CENTER);
+        titleMenuPanel.add(waveImageLeft, BorderLayout.WEST); 
+        titleMenuPanel.add(waveImageRight, BorderLayout.EAST);
 
         final JComboBox userActions = new JComboBox(options);
         userActions.addActionListener(new ActionListener() {
@@ -111,6 +123,21 @@ public class RowlyGUI extends JFrame {
             }
         });
         titleMenuPanel.add(userActions, BorderLayout.SOUTH);
+    }
+
+    // EFFECTS: creates panel with title
+    public JPanel makeTitlePanel() {
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel title = new JLabel("Rowly Rowing Workout Tracker", SwingConstants.CENTER);
+        Font titleFont = new Font("SansSerif", Font.BOLD, 16);
+        title.setFont(titleFont);
+        title.setForeground(new Color(0, 35, 102));
+        JLabel selectOption = new JLabel("Please select an option:", SwingConstants.CENTER);
+        title.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        titlePanel.setBackground(Color.WHITE);
+        titlePanel.add(title, BorderLayout.NORTH);
+        titlePanel.add(selectOption, BorderLayout.SOUTH);
+        return titlePanel;
     }
 
     // EFFECTS: shows splash screen with rowly logo for 2 seconds
