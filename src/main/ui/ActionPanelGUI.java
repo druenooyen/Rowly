@@ -72,6 +72,7 @@ public class ActionPanelGUI extends JPanel {
                 int distance = Integer.parseInt(distanceField.getText());
                 String duration = durationField.getText();
                 int rate = Integer.parseInt(rateField.getText());
+                clearTextFields();
 
                 RowEntry newEntry = new RowEntry(date, distance, duration, rate);
                 logbook.addEntry(newEntry);
@@ -80,6 +81,15 @@ public class ActionPanelGUI extends JPanel {
             }
         };
         addButton.addActionListener(actionListener);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: clears text from textfields
+    public void clearTextFields() {
+        dateField.setText("");
+        distanceField.setText("");
+        durationField.setText("");
+        rateField.setText("");
     }
 
     // MODIFIES: this
