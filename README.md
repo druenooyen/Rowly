@@ -20,11 +20,12 @@ I joined the UBC rowing team as a novice rower in September 2024 and have been l
 
 ## Instructions for End User
 
-- To add a new entry to their Logbook, the user can select "Add an Entry" from the dropdown menu, fill in their data and click "Add".
-- To view all the entries in the logbook, the user can select the "View all Entries" from the dropdown menu.
-- To view personal bests, the user can select the "View personal bests" from the dropdown menu.
+- To add a new entry to their Logbook, the user can select "Add an Entry" from the dropdown menu, fill in their data and click "Add Entry to Logbook".
+- To view all the entries in the logbook, the user can select the "View Entries" from the dropdown menu.
+- To view personal bests, the user can select the "Personal Bests" from the dropdown menu.
+- To view logbook totals, the user can select the "Logbook Totals" from the dropdown menu.
 - You can locate the visual component on a splash screen upon opening the app.
-- You can save the state of the application by pressing quit, which will prompt a pop up.
+- You can save the state of the application by closing the window, which will prompt a pop up to save to file.
 - You can reload the state of the application via the pop up upon opening the application.
 
 
