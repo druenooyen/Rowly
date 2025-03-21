@@ -181,14 +181,7 @@ public class ActionPanelGUI extends JPanel {
         totalDistanceValue.setFont(pbFont);
         totalTime.setFont(pbFont);
         totalTimeValue.setFont(pbFont);
-
-        logbookTotalsPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.BLACK, 2),
-                "🏋️ Your Totals 🏋️",
-                TitledBorder.CENTER,
-                TitledBorder.TOP,
-                new Font("SansSerif", Font.BOLD, 20),
-                Color.BLACK));
+        addBorder(logbookTotalsPanel, "Your Totals");
 
         logbookTotalsPanel.add(totalDistance);
         logbookTotalsPanel.add(totalDistanceValue);
@@ -202,13 +195,7 @@ public class ActionPanelGUI extends JPanel {
     // EFFECTS: Displays all entries in logbook
     public void updateAllEntries() {
         allEntriesPanel.removeAll();
-        allEntriesPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.BLACK, 2),
-                "🏋️ Your Entries 🏋️",
-                TitledBorder.CENTER,
-                TitledBorder.TOP,
-                new Font("SansSerif", Font.BOLD, 20),
-                Color.BLACK));
+        addBorder(allEntriesPanel, "Your Entries");
         for (RowEntry r : logbook.getRowLogbook()) {
             allEntriesPanel.add(displayEntry(r));
         }
@@ -229,13 +216,7 @@ public class ActionPanelGUI extends JPanel {
         best6kmValue.setFont(pbFont);
         best2kmValue.setFont(pbFont);
         best6km.setFont(pbFont);
-        personalBestsPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.BLACK, 2),
-                "🏋️ Personal Bests 🏋️",
-                TitledBorder.CENTER,
-                TitledBorder.TOP,
-                new Font("SansSerif", Font.BOLD, 20),
-                Color.BLACK));
+        addBorder(personalBestsPanel, "Personal Bests");
 
         personalBestsPanel.add(best2km);
         personalBestsPanel.add(best2kmValue);
@@ -245,9 +226,20 @@ public class ActionPanelGUI extends JPanel {
         personalBestsPanel.repaint();
     }
 
-    // EFFECS: updates current logbook to logbook
+    // EFFECTS: updates current logbook to logbook
     public void updateLogbook(RowLogbook logbook) {
         this.logbook = logbook;
+    }
+
+    // EFFECTS: adds border with sylized title to panel
+    public void addBorder(JPanel panel, String title) {
+        panel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.GRAY, 3),
+                title,
+                TitledBorder.CENTER,
+                TitledBorder.TOP,
+                new Font("SansSerif", Font.BOLD, 20),
+                Color.BLACK));
     }
 
 }
