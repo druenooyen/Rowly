@@ -25,7 +25,7 @@ I joined the UBC rowing team as a novice rower in September 2024 and have been l
 - To view personal bests, the user can select the "Personal Bests" from the dropdown menu.
 - To view logbook totals, the user can select the "Logbook Totals" from the dropdown menu.
 - You can locate the visual component on a splash screen upon opening the app.
-- You can save the state of the application by closing the window, which will prompt a pop up to save to file.
+- You can save the state of the application by selecting "Save and Exit" from the dropdown menu or by closing the window,  which will prompt a pop up to save to file.
 - You can reload the state of the application via the pop up upon opening the application.
 
 
