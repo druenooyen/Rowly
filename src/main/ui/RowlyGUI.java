@@ -11,6 +11,8 @@ import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+// A class representing the GUI for the Rowly app with a title panel and navigation menu
+// for users to select different actions within the app
 public class RowlyGUI extends JFrame {
 
     private JPanel titleMenuPanel;

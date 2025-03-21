@@ -5,15 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -23,6 +19,8 @@ import javax.swing.border.TitledBorder;
 import model.RowEntry;
 import model.RowLogbook;
 
+// A class representing the GUI for the panels that users can navigate between 
+// via the navigation menu
 public class ActionPanelGUI extends JPanel {
     private RowLogbook logbook;
     private JPanel rowEntryPanel;
@@ -31,12 +29,10 @@ public class ActionPanelGUI extends JPanel {
     private JPanel personalBestsPanel;
 
     private JButton addButton;
-    private ActionListener actionListener;
     private JTextField dateField;
     private JTextField distanceField;
     private JTextField durationField;
     private JTextField rateField;
-
     private CardLayout actionPanelLayout;
     private Font font = new Font("SansSerif", Font.BOLD, 16);
 
@@ -64,23 +60,7 @@ public class ActionPanelGUI extends JPanel {
         addButton = new JButton("Add Entry to Logbook");
 
         addComponentsToRowEntryPanel();
-
-        actionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String date = dateField.getText();
-                int distance = Integer.parseInt(distanceField.getText());
-                String duration = durationField.getText();
-                int rate = Integer.parseInt(rateField.getText());
-                clearTextFields();
-
-                RowEntry newEntry = new RowEntry(date, distance, duration, rate);
-                logbook.addEntry(newEntry);
-                JOptionPane.showMessageDialog(null,
-                        "Entry Added to Logbook! \n Summary: " + displayEntrySummary(newEntry));
-            }
-        };
-        addButton.addActionListener(actionListener);
+        addButton.addActionListener(new RowEntryListener(dateField, distanceField, durationField, rateField, logbook));
     }
 
     // MODIFIES: this
@@ -110,8 +90,9 @@ public class ActionPanelGUI extends JPanel {
     // EFFECTS: Generates written summary of rowEntry
     public JPanel displayEntry(RowEntry rowEntry) {
         JPanel displayPanel = new JPanel();
-        displayPanel.add(Box.createRigidArea(new Dimension(10, 10)));
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.Y_AXIS));
+        displayPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         displayPanel.add(new JLabel("Your entry from " + rowEntry.getDate() + ":"));
         displayPanel.add(new JLabel("Distance: " + rowEntry.getDistance() + "m"));
         displayPanel.add(new JLabel("Time: " + rowEntry.getTime()));
@@ -161,23 +142,28 @@ public class ActionPanelGUI extends JPanel {
         this.add(personalBestsPanel, "Personal Bests");
     }
 
+
+    // MODIFIES: this
     // EFFECTS: Displays appropriate GUI based on userChoice
     public void displayBasedOnSelection(String userChoice) {
-        if (userChoice.equals("Logbook Totals")) {
-            updateLogbookTotals();
-            actionPanelLayout.show(this, "Logbook Totals");
-
-        } else if (userChoice.equals("View Entries")) {
-            updateAllEntries();
-            actionPanelLayout.show(this, "View Entries");
-
-        } else if (userChoice.equals("Personal Bests")) {
-            updatePersonalBests();
-            actionPanelLayout.show(this, "Personal Bests");
-        } else {
-            actionPanelLayout.show(this, "Add Entry");
+        switch (userChoice) {
+            case "Logbook Totals":
+                updateLogbookTotals();
+                actionPanelLayout.show(this, "Logbook Totals");
+                break;
+            case "View Entries":
+                updateAllEntries();
+                actionPanelLayout.show(this, "View Entries");
+                break;
+            case "Personal Bests":
+                updatePersonalBests();
+                actionPanelLayout.show(this, "Personal Bests");
+                break;
+            default:
+                actionPanelLayout.show(this, "Add Entry");
         }
     }
+    
 
     // MODIFIES: this
     // EFFECTS: Displays totals for all entries in logbook
