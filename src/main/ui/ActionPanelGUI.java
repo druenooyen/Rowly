@@ -38,6 +38,7 @@ public class ActionPanelGUI extends JPanel {
     private JTextField rateField;
 
     private CardLayout actionPanelLayout;
+    private Font font = new Font("SansSerif", Font.BOLD, 16);
 
     public ActionPanelGUI(RowLogbook logbook) {
         this.logbook = logbook;
@@ -90,7 +91,7 @@ public class ActionPanelGUI extends JPanel {
         rowEntryPanel.add(distanceField);
         rowEntryPanel.add(new JLabel("Enter Duration (hh:mm:ss):"));
         rowEntryPanel.add(durationField);
-        rowEntryPanel.add(new JLabel("Enter Rate:"));
+        rowEntryPanel.add(new JLabel("Enter Rate: (strokes/minute)"));
         rowEntryPanel.add(rateField);
         rowEntryPanel.add(addButton);
         this.add(rowEntryPanel, "Add Entry");
@@ -136,7 +137,7 @@ public class ActionPanelGUI extends JPanel {
     // EFFECTS: Makes panel for user to view logbook totals
     public void makeLogbookTotalsPanel() {
         logbookTotalsPanel = new JPanel();
-        logbookTotalsPanel.setLayout(new GridLayout(4, 1, 5, 5));
+        logbookTotalsPanel.setLayout(new GridLayout(3, 2, 5, 5));
         this.add(logbookTotalsPanel, "Logbook Totals");
 
     }
@@ -172,17 +173,22 @@ public class ActionPanelGUI extends JPanel {
     // EFFECTS: Displays totals for all entries in logbook
     public void updateLogbookTotals() {
         logbookTotalsPanel.removeAll();
+        JLabel totalEntries = new JLabel("Your total entries:", SwingConstants.CENTER);
+        JLabel totalEntriesValue = new JLabel(" " + logbook.countEntries(), SwingConstants.CENTER);
         JLabel totalDistance = new JLabel("Your total distance:", SwingConstants.CENTER);
-        JLabel totalDistanceValue = new JLabel(" " + logbook.findTotalDistance(), SwingConstants.CENTER);
+        JLabel totalDistanceValue = new JLabel(" " + logbook.findTotalDistance() + "m", SwingConstants.CENTER);
         JLabel totalTime = new JLabel("Your total time:", SwingConstants.CENTER);
         JLabel totalTimeValue = new JLabel(" " + logbook.findTotalTime(), SwingConstants.CENTER);
-        Font pbFont = new Font("SansSerif", Font.BOLD, 18);
-        totalDistance.setFont(pbFont);
-        totalDistanceValue.setFont(pbFont);
-        totalTime.setFont(pbFont);
-        totalTimeValue.setFont(pbFont);
+        totalDistance.setFont(font);
+        totalDistanceValue.setFont(font);
+        totalTime.setFont(font);
+        totalTimeValue.setFont(font);
+        totalEntries.setFont(font);
+        totalEntriesValue.setFont(font);
         addBorder(logbookTotalsPanel, "Your Totals");
 
+        logbookTotalsPanel.add(totalEntries);
+        logbookTotalsPanel.add(totalEntriesValue);
         logbookTotalsPanel.add(totalDistance);
         logbookTotalsPanel.add(totalDistanceValue);
         logbookTotalsPanel.add(totalTime);
@@ -211,12 +217,13 @@ public class ActionPanelGUI extends JPanel {
         JLabel best2kmValue = new JLabel(logbook.find2kmPersonalBest(), SwingConstants.CENTER);
         JLabel best6km = new JLabel("🏅 Your 6km personal best 🏅", SwingConstants.CENTER);
         JLabel best6kmValue = new JLabel(logbook.find6kmPersonalBest(), SwingConstants.CENTER);
-        Font pbFont = new Font("SansSerif", Font.BOLD, 18);
-        best2km.setFont(pbFont);
-        best6kmValue.setFont(pbFont);
-        best2kmValue.setFont(pbFont);
-        best6km.setFont(pbFont);
-        addBorder(personalBestsPanel, "Personal Bests");
+        best2km.setFont(font);
+        best6kmValue.setFont(font);
+        best2kmValue.setFont(font);
+        best6km.setFont(font);
+        best2km.setForeground(new Color(212, 175, 55));
+        best6km.setForeground(new Color(212, 175, 55));
+        addBorder(personalBestsPanel, "Your Personal Bests");
 
         personalBestsPanel.add(best2km);
         personalBestsPanel.add(best2kmValue);
@@ -239,7 +246,7 @@ public class ActionPanelGUI extends JPanel {
                 TitledBorder.CENTER,
                 TitledBorder.TOP,
                 new Font("SansSerif", Font.BOLD, 20),
-                Color.BLACK));
+                new Color(0, 35, 102)));
     }
 
 }

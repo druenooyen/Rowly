@@ -21,10 +21,10 @@ public class RowlyGUI extends JFrame {
     private static final int WINDOW_HEIGHT = 300;
     private static final String FILE_DESTINATION = "./data/logbook.json";
 
-    private String[] options = { "Add Entry", "View Entries", "Logbook Totals", "Personal Bests", "Save" };
+    private String[] options = { "Add Entry", "View Entries", "Logbook Totals", "Personal Bests", "Save and Exit"};
 
     public RowlyGUI() {
-        super("Rowly Rowing Tracker");
+        super("Rowly");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         setLayout(new BorderLayout());
@@ -119,6 +119,10 @@ public class RowlyGUI extends JFrame {
         userActions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String userChoice = (String) userActions.getSelectedItem();
+                if (userChoice == "Save and Exit") {
+                    saveChanges();
+                    dispose();
+                }
                 actionPanel.displayBasedOnSelection(userChoice);
             }
         });
