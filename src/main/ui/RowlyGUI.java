@@ -18,6 +18,8 @@ public class RowlyGUI extends JFrame {
     private ActionPanelGUI actionPanel;
     private RowLogbook logbook;
 
+    private static final int WINDOW_WIDTH = 400;
+    private static final int WINDOW_HEIGHT = 300;
     private static final String FILE_DESTINATION = "./data/logbook.json";
 
     private String[] options = { "Add Entry", "View Entries", "Logbook Totals", "Personal Bests", "Save" };
@@ -25,7 +27,7 @@ public class RowlyGUI extends JFrame {
     public RowlyGUI() {
         super("Rowly Rowing Tracker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(400, 300));
+        setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         setLayout(new BorderLayout());
         addWindowListener(new WindowAdapter() {
             @Override
@@ -36,15 +38,17 @@ public class RowlyGUI extends JFrame {
 
         runSplashScreen();
         logbook = new RowLogbook();
-        loadDataPopUp();
+        
         makeTitleMenuPanel();
         actionPanel = new ActionPanelGUI(logbook);
         add(titleMenuPanel, BorderLayout.NORTH);
         add(actionPanel, BorderLayout.CENTER);
+
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
+        loadDataPopUp();
     }
 
     // EFFECTS: prompts user to load previous data
@@ -57,6 +61,7 @@ public class RowlyGUI extends JFrame {
             JsonReader reader = new JsonReader(FILE_DESTINATION);
             try {
                 this.logbook = reader.readLogbookFromJson();
+                actionPanel.updateLogbook(this.logbook);
             } catch (IOException e) {
                 System.out.println("Could not load data from file");
             }
@@ -69,7 +74,7 @@ public class RowlyGUI extends JFrame {
                 this, 
                 "Do you want to save your entries to file?",
                 "Save Changes?",
-                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE);
 
         if (option == JOptionPane.YES_OPTION) {
@@ -108,10 +113,10 @@ public class RowlyGUI extends JFrame {
         titleMenuPanel.add(userActions, BorderLayout.SOUTH);
     }
 
-    // EFFECTS: shows splash screen with rowly logo for 3 seconds
+    // EFFECTS: shows splash screen with rowly logo for 2 seconds
     public void runSplashScreen() {
         JWindow splashScreen = new JWindow();
-        splashScreen.setSize(400, 500);
+        splashScreen.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         splashScreen.setLocationRelativeTo(null);
 
         ImageIcon rowlyLogo = new ImageIcon("src/main/resources/rowly_logo3.png");
@@ -123,7 +128,7 @@ public class RowlyGUI extends JFrame {
         splashScreen.setVisible(true);
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             System.err.println("Thread was interrupted.");
         }

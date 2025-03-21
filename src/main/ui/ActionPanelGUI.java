@@ -2,17 +2,20 @@ package ui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
@@ -40,7 +43,7 @@ public class ActionPanelGUI extends JPanel {
         this.logbook = logbook;
         actionPanelLayout = new CardLayout();
         this.setLayout(actionPanelLayout);
-       
+
         makeRowEntryPanel();
         makeAllEntriesPanel();
         makeLogbookTotalsPanel();
@@ -71,7 +74,8 @@ public class ActionPanelGUI extends JPanel {
 
                 RowEntry newEntry = new RowEntry(date, distance, duration, rate);
                 logbook.addEntry(newEntry);
-                JOptionPane.showMessageDialog(null, "Entry Added to Logbook! \n Summary: " + displayEntry(newEntry));
+                JOptionPane.showMessageDialog(null,
+                        "Entry Added to Logbook! \n Summary: " + displayEntrySummary(newEntry));
             }
         };
         addButton.addActionListener(actionListener);
@@ -93,7 +97,19 @@ public class ActionPanelGUI extends JPanel {
     }
 
     // EFFECTS: Generates written summary of rowEntry
-    public String displayEntry(RowEntry rowEntry) {
+    public JPanel displayEntry(RowEntry rowEntry) {
+        JPanel displayPanel = new JPanel();
+        displayPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.Y_AXIS));
+        displayPanel.add(new JLabel("Your entry from " + rowEntry.getDate() + ":"));
+        displayPanel.add(new JLabel("Distance: " + rowEntry.getDistance() + "m"));
+        displayPanel.add(new JLabel("Time: " + rowEntry.getTime()));
+        displayPanel.add(new JLabel("Rate: " + rowEntry.getRate()));
+        return displayPanel;
+    }
+
+    // EFFECTS: Generates written summary of rowEntry
+    public String displayEntrySummary(RowEntry rowEntry) {
         String date = rowEntry.getDate();
         int distance = rowEntry.getDistance();
         String time = rowEntry.getTime();
@@ -106,7 +122,14 @@ public class ActionPanelGUI extends JPanel {
     // // EFFECTS: Makes panel for user to view all logbook entries
     public void makeAllEntriesPanel() {
         allEntriesPanel = new JPanel();
-        this.add(allEntriesPanel, "View Entries");
+        allEntriesPanel.setLayout(new BoxLayout(allEntriesPanel, BoxLayout.Y_AXIS));
+
+        JScrollPane scrollPane = new JScrollPane(allEntriesPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setPreferredSize(new Dimension(400, 300));
+
+        this.add(scrollPane, "View Entries");
     }
 
     // MODIFIES: this
@@ -126,7 +149,6 @@ public class ActionPanelGUI extends JPanel {
         updatePersonalBests();
         this.add(personalBestsPanel, "Personal Bests");
     }
-
 
     // EFFECTS: Displays appropriate GUI based on userChoice
     public void displayBasedOnSelection(String userChoice) {
@@ -188,7 +210,7 @@ public class ActionPanelGUI extends JPanel {
                 new Font("SansSerif", Font.BOLD, 20),
                 Color.BLACK));
         for (RowEntry r : logbook.getRowLogbook()) {
-            allEntriesPanel.add(new JLabel(displayEntry(r)));
+            allEntriesPanel.add(displayEntry(r));
         }
         allEntriesPanel.revalidate();
         allEntriesPanel.repaint();
@@ -221,6 +243,11 @@ public class ActionPanelGUI extends JPanel {
         personalBestsPanel.add(best6kmValue);
         personalBestsPanel.revalidate();
         personalBestsPanel.repaint();
+    }
+
+    // EFFECS: updates current logbook to logbook
+    public void updateLogbook(RowLogbook logbook) {
+        this.logbook = logbook;
     }
 
 }
