@@ -26,6 +26,9 @@ public class RowEntryListener implements ActionListener {
         this.logbook = logbook;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds new entry to logbook using user input and displays pop up summary;  
+    //          shows error message for incorrect input in distance and rate fields 
     @Override
     public void actionPerformed(ActionEvent e) {
         String date = dateField.getText().trim();
@@ -50,6 +53,7 @@ public class RowEntryListener implements ActionListener {
                 "Entry Added to Logbook! \n Summary: " + displayEntrySummary(newEntry));
     }
 
+    // EFFECTS: if user input is a valid integer returns integer, else returns null
     private Integer handleInvalidIntInput(String text) {
         try {
             return Integer.parseInt(text.trim());
@@ -58,6 +62,8 @@ public class RowEntryListener implements ActionListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets all textfields to an empty string
     private void clearTextFields() {
         dateField.setText("");
         distanceField.setText("");
@@ -65,12 +71,14 @@ public class RowEntryListener implements ActionListener {
         rateField.setText("");
     }
 
+    // EFFECTS: displays a single line summary of rowEntry
     private String displayEntrySummary(RowEntry rowEntry) {
         return "Date: " + rowEntry.getDate() + " // Distance: " + rowEntry.getDistance() + "m // Time: "
                 + rowEntry.getTime() + " // Rate: " + rowEntry.getRate();
     }
 
-    // EFFECTS: updates current logbook to logbook
+    // MODIFIES: this
+    // EFFECTS: updates current logbook to given logbook
     public void updateLogbook(RowLogbook logbook) {
         this.logbook = logbook;
     }

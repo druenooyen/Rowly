@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -50,7 +49,7 @@ public class ActionPanelGUI extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: Makes panel for user to input new row entry
+    // EFFECTS: creates panel for user to input new row entry
     public void makeRowEntryPanel() {
         rowEntryPanel = new JPanel();
         rowEntryPanel.setLayout(new BoxLayout(rowEntryPanel, BoxLayout.Y_AXIS));
@@ -67,7 +66,7 @@ public class ActionPanelGUI extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: clears text from textfields
+    // EFFECTS: clears text from row entry textfields
     public void clearTextFields() {
         dateField.setText("");
         distanceField.setText("");
@@ -76,7 +75,7 @@ public class ActionPanelGUI extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: Adds all panels and labels to rowentrypanel
+    // EFFECTS: adds all panels and labels to row entry panel
     public void addComponentsToRowEntryPanel() {
         rowEntryPanel.add(new JLabel("Enter Date (yyyy-mm-dd):"));
         rowEntryPanel.add(dateField);
@@ -90,7 +89,7 @@ public class ActionPanelGUI extends JPanel {
         this.add(rowEntryPanel, "Add Entry");
     }
 
-    // EFFECTS: Generates written summary of rowEntry
+    // EFFECTS: returns written summary of rowEntry
     public JPanel displayEntry(RowEntry rowEntry) {
         JPanel displayPanel = new JPanel();
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.Y_AXIS));
@@ -103,18 +102,8 @@ public class ActionPanelGUI extends JPanel {
         return displayPanel;
     }
 
-    // EFFECTS: Generates written summary of rowEntry
-    public String displayEntrySummary(RowEntry rowEntry) {
-        String date = rowEntry.getDate();
-        int distance = rowEntry.getDistance();
-        String time = rowEntry.getTime();
-        int rate = rowEntry.getRate();
-
-        return "Date: " + date + " // Distance: " + distance + "m // Time: " + time + " // Rate: " + rate;
-    }
-
-    // // MODIFIES: this
-    // // EFFECTS: Makes panel for user to view all logbook entries
+    // MODIFIES: this
+    // EFFECTS: creates panel for user to view all logbook entries
     public void makeAllEntriesPanel() {
         allEntriesPanel = new JPanel();
         allEntriesPanel.setLayout(new BoxLayout(allEntriesPanel, BoxLayout.Y_AXIS));
@@ -128,16 +117,15 @@ public class ActionPanelGUI extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: Makes panel for user to view logbook totals
+    // EFFECTS: creates panel for user to view logbook totals
     public void makeLogbookTotalsPanel() {
         logbookTotalsPanel = new JPanel();
         logbookTotalsPanel.setLayout(new GridLayout(3, 2, 5, 5));
         this.add(logbookTotalsPanel, "Logbook Totals");
-
     }
 
     // MODIFIES: this
-    // EFFECTS: Makes panel for user to view personal bests
+    // EFFECTS: creates panel for user to view personal bests
     public void makePersonalBestsPanel() {
         personalBestsPanel = new JPanel();
         personalBestsPanel.setLayout(new GridLayout(4, 1, 5, 5));
@@ -145,9 +133,8 @@ public class ActionPanelGUI extends JPanel {
         this.add(personalBestsPanel, "Personal Bests");
     }
 
-
     // MODIFIES: this
-    // EFFECTS: Displays appropriate GUI based on userChoice
+    // EFFECTS: displays appropriate panel based on userChoice
     public void displayBasedOnSelection(String userChoice) {
         switch (userChoice) {
             case "Logbook Totals":
@@ -166,10 +153,9 @@ public class ActionPanelGUI extends JPanel {
                 actionPanelLayout.show(this, "Add Entry");
         }
     }
-    
 
     // MODIFIES: this
-    // EFFECTS: Displays totals for all entries in logbook
+    // EFFECTS: updates totals panel to display totals for all entries in current logbook
     public void updateLogbookTotals() {
         logbookTotalsPanel.removeAll();
         JLabel totalEntries = new JLabel("Total entries:", SwingConstants.CENTER);
@@ -178,6 +164,7 @@ public class ActionPanelGUI extends JPanel {
         JLabel totalDistanceValue = new JLabel(" " + logbook.findTotalDistance() + "m", SwingConstants.CENTER);
         JLabel totalTime = new JLabel("Total time:", SwingConstants.CENTER);
         JLabel totalTimeValue = new JLabel(" " + logbook.findTotalTime(), SwingConstants.CENTER);
+
         totalDistance.setFont(font);
         totalDistanceValue.setFont(font);
         totalTime.setFont(font);
@@ -197,7 +184,7 @@ public class ActionPanelGUI extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: Displays all entries in logbook
+    // EFFECTS: updates entries panel to display all entries in current logbook
     public void updateAllEntries() {
         allEntriesPanel.removeAll();
         addBorder(allEntriesPanel, "Logbook Entries");
@@ -210,7 +197,7 @@ public class ActionPanelGUI extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: Displays personal bests
+    // EFFECTS: updates personal bests panel to display personal bests in current logbook
     public void updatePersonalBests() {
         personalBestsPanel.removeAll();
         JLabel best2km = new JLabel("🏅 Your 2km personal best 🏅", SwingConstants.CENTER);
@@ -233,13 +220,15 @@ public class ActionPanelGUI extends JPanel {
         personalBestsPanel.repaint();
     }
 
-    // EFFECTS: updates current logbook to logbook
+    // MODIFIES: this
+    // EFFECTS: updates current logbook to given logbook
     public void updateLogbook(RowLogbook logbook) {
         this.logbook = logbook;
         rowEntryListener.updateLogbook(this.logbook);
     }
 
-    // EFFECTS: adds border with sylized title to panel
+    // MODIFIES: panel
+    // EFFECTS: adds a border with sylized title to panel
     public void addBorder(JPanel panel, String title) {
         panel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.GRAY, 3),
@@ -249,5 +238,4 @@ public class ActionPanelGUI extends JPanel {
                 new Font("SansSerif", Font.BOLD, 20),
                 new Color(0, 35, 102)));
     }
-
 }

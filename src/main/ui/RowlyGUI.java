@@ -87,7 +87,6 @@ public class RowlyGUI extends JFrame {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: saves row entries to json file
     public void saveChanges() {
         JsonWriter writer = new JsonWriter(FILE_DESTINATION);
@@ -131,18 +130,22 @@ public class RowlyGUI extends JFrame {
         titleMenuPanel.add(userActions, BorderLayout.SOUTH);
     }
 
-    // EFFECTS: creates panel with title
+    // EFFECTS: creates title panel with title and navigation bar header
     public JPanel makeTitlePanel() {
         JPanel titlePanel = new JPanel(new BorderLayout());
+
         JLabel title = new JLabel("Your Rowly Logbook", SwingConstants.CENTER);
         Font titleFont = new Font("SansSerif", Font.BOLD, 16);
         title.setFont(titleFont);
         title.setForeground(new Color(0, 35, 102));
-        JLabel selectOption = new JLabel("Please select an option:", SwingConstants.CENTER);
         title.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+
+        JLabel selectOption = new JLabel("Please select an option:", SwingConstants.CENTER);
+        
         titlePanel.setBackground(Color.WHITE);
         titlePanel.add(title, BorderLayout.NORTH);
         titlePanel.add(selectOption, BorderLayout.SOUTH);
+
         return titlePanel;
     }
 
