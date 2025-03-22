@@ -26,7 +26,7 @@ public class RowlyGUI extends JFrame {
     private String[] options = { "Add Entry", "View Entries", "Logbook Totals", "Personal Bests", "Save and Exit"};
 
     public RowlyGUI() {
-        super("Rowly");
+        super("Rowly Rowing Workout Tracker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         setLayout(new BorderLayout());
@@ -134,7 +134,7 @@ public class RowlyGUI extends JFrame {
     // EFFECTS: creates panel with title
     public JPanel makeTitlePanel() {
         JPanel titlePanel = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Rowly Rowing Workout Tracker", SwingConstants.CENTER);
+        JLabel title = new JLabel("Your Rowly Logbook", SwingConstants.CENTER);
         Font titleFont = new Font("SansSerif", Font.BOLD, 16);
         title.setFont(titleFont);
         title.setForeground(new Color(0, 35, 102));

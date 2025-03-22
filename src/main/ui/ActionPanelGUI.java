@@ -172,11 +172,11 @@ public class ActionPanelGUI extends JPanel {
     // EFFECTS: Displays totals for all entries in logbook
     public void updateLogbookTotals() {
         logbookTotalsPanel.removeAll();
-        JLabel totalEntries = new JLabel("Your total entries:", SwingConstants.CENTER);
+        JLabel totalEntries = new JLabel("Total entries:", SwingConstants.CENTER);
         JLabel totalEntriesValue = new JLabel(" " + logbook.countEntries(), SwingConstants.CENTER);
-        JLabel totalDistance = new JLabel("Your total distance:", SwingConstants.CENTER);
+        JLabel totalDistance = new JLabel("Total distance:", SwingConstants.CENTER);
         JLabel totalDistanceValue = new JLabel(" " + logbook.findTotalDistance() + "m", SwingConstants.CENTER);
-        JLabel totalTime = new JLabel("Your total time:", SwingConstants.CENTER);
+        JLabel totalTime = new JLabel("Total time:", SwingConstants.CENTER);
         JLabel totalTimeValue = new JLabel(" " + logbook.findTotalTime(), SwingConstants.CENTER);
         totalDistance.setFont(font);
         totalDistanceValue.setFont(font);
@@ -184,7 +184,7 @@ public class ActionPanelGUI extends JPanel {
         totalTimeValue.setFont(font);
         totalEntries.setFont(font);
         totalEntriesValue.setFont(font);
-        addBorder(logbookTotalsPanel, "Your Totals");
+        addBorder(logbookTotalsPanel, "Logbook Totals");
 
         logbookTotalsPanel.add(totalEntries);
         logbookTotalsPanel.add(totalEntriesValue);
@@ -200,7 +200,7 @@ public class ActionPanelGUI extends JPanel {
     // EFFECTS: Displays all entries in logbook
     public void updateAllEntries() {
         allEntriesPanel.removeAll();
-        addBorder(allEntriesPanel, "Your Entries");
+        addBorder(allEntriesPanel, "Logbook Entries");
         for (int i = logbook.getRowLogbook().size() - 1; i >= 0; i--) {
             RowEntry r = logbook.getRowLogbook().get(i);
             allEntriesPanel.add(displayEntry(r));
@@ -223,7 +223,7 @@ public class ActionPanelGUI extends JPanel {
         best6km.setFont(font);
         best2km.setForeground(new Color(212, 175, 55));
         best6km.setForeground(new Color(212, 175, 55));
-        addBorder(personalBestsPanel, "Your Personal Bests");
+        addBorder(personalBestsPanel, "Personal Bests");
 
         personalBestsPanel.add(best2km);
         personalBestsPanel.add(best2kmValue);
