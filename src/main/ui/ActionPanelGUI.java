@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -27,6 +28,7 @@ public class ActionPanelGUI extends JPanel {
     private JPanel allEntriesPanel;
     private JPanel logbookTotalsPanel;
     private JPanel personalBestsPanel;
+    private RowEntryListener rowEntryListener;
 
     private JButton addButton;
     private JTextField dateField;
@@ -60,7 +62,8 @@ public class ActionPanelGUI extends JPanel {
         addButton = new JButton("Add Entry to Logbook");
 
         addComponentsToRowEntryPanel();
-        addButton.addActionListener(new RowEntryListener(dateField, distanceField, durationField, rateField, logbook));
+        rowEntryListener = new RowEntryListener(dateField, distanceField, durationField, rateField, logbook);
+        addButton.addActionListener(rowEntryListener);
     }
 
     // MODIFIES: this
@@ -198,7 +201,8 @@ public class ActionPanelGUI extends JPanel {
     public void updateAllEntries() {
         allEntriesPanel.removeAll();
         addBorder(allEntriesPanel, "Your Entries");
-        for (RowEntry r : logbook.getRowLogbook()) {
+        for (int i = logbook.getRowLogbook().size() - 1; i >= 0; i--) {
+            RowEntry r = logbook.getRowLogbook().get(i);
             allEntriesPanel.add(displayEntry(r));
         }
         allEntriesPanel.revalidate();
@@ -232,6 +236,7 @@ public class ActionPanelGUI extends JPanel {
     // EFFECTS: updates current logbook to logbook
     public void updateLogbook(RowLogbook logbook) {
         this.logbook = logbook;
+        rowEntryListener.updateLogbook(this.logbook);
     }
 
     // EFFECTS: adds border with sylized title to panel

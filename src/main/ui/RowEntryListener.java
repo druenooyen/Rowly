@@ -3,7 +3,6 @@ package ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JOptionPane;
 import javax.swing.*;
 
 import model.RowEntry;
@@ -69,5 +68,10 @@ public class RowEntryListener implements ActionListener {
     private String displayEntrySummary(RowEntry rowEntry) {
         return "Date: " + rowEntry.getDate() + " // Distance: " + rowEntry.getDistance() + "m // Time: "
                 + rowEntry.getTime() + " // Rate: " + rowEntry.getRate();
+    }
+
+    // EFFECTS: updates current logbook to logbook
+    public void updateLogbook(RowLogbook logbook) {
+        this.logbook = logbook;
     }
 }
