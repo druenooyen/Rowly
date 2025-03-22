@@ -84,7 +84,7 @@ public class ActionPanelGUI extends JPanel {
         rowEntryPanel.add(distanceField);
         rowEntryPanel.add(new JLabel("Enter Duration (hh:mm:ss):"));
         rowEntryPanel.add(durationField);
-        rowEntryPanel.add(new JLabel("Enter Rate: (strokes/minute)"));
+        rowEntryPanel.add(new JLabel("Enter Rate (strokes/minute):"));
         rowEntryPanel.add(rateField);
         rowEntryPanel.add(addButton);
         this.add(rowEntryPanel, "Add Entry");
