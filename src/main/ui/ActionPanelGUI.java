@@ -129,7 +129,7 @@ public class ActionPanelGUI extends JPanel {
     public void makePersonalBestsPanel() {
         personalBestsPanel = new JPanel();
         personalBestsPanel.setLayout(new GridLayout(4, 1, 5, 5));
-        updatePersonalBests();
+        // updatePersonalBests();
         this.add(personalBestsPanel, "Personal Bests");
     }
 
@@ -161,9 +161,9 @@ public class ActionPanelGUI extends JPanel {
         JLabel totalEntries = new JLabel("Total entries:", SwingConstants.CENTER);
         JLabel totalEntriesValue = new JLabel(" " + logbook.countEntries(), SwingConstants.CENTER);
         JLabel totalDistance = new JLabel("Total distance:", SwingConstants.CENTER);
-        JLabel totalDistanceValue = new JLabel(" " + logbook.findTotalDistance() + "m", SwingConstants.CENTER);
+        JLabel totalDistanceValue = new JLabel(" " + logbook.getTotalDistance() + "m", SwingConstants.CENTER);
         JLabel totalTime = new JLabel("Total time:", SwingConstants.CENTER);
-        JLabel totalTimeValue = new JLabel(" " + logbook.findTotalTime(), SwingConstants.CENTER);
+        JLabel totalTimeValue = new JLabel(" " + logbook.getTotalTime(), SwingConstants.CENTER);
 
         totalDistance.setFont(font);
         totalDistanceValue.setFont(font);
@@ -186,6 +186,10 @@ public class ActionPanelGUI extends JPanel {
     // MODIFIES: this
     // EFFECTS: updates entries panel to display all entries in current logbook
     public void updateAllEntries() {
+        if (allEntriesPanel.getComponentCount() == logbook.getRowLogbook().size()) {
+            return; 
+        }
+
         allEntriesPanel.removeAll();
         addBorder(allEntriesPanel, "Logbook Entries");
         for (int i = logbook.getRowLogbook().size() - 1; i >= 0; i--) {
@@ -201,9 +205,9 @@ public class ActionPanelGUI extends JPanel {
     public void updatePersonalBests() {
         personalBestsPanel.removeAll();
         JLabel best2km = new JLabel("🏅 Your 2km personal best 🏅", SwingConstants.CENTER);
-        JLabel best2kmValue = new JLabel(logbook.find2kmPersonalBest(), SwingConstants.CENTER);
+        JLabel best2kmValue = new JLabel(logbook.get2kmPB(), SwingConstants.CENTER);
         JLabel best6km = new JLabel("🏅 Your 6km personal best 🏅", SwingConstants.CENTER);
-        JLabel best6kmValue = new JLabel(logbook.find6kmPersonalBest(), SwingConstants.CENTER);
+        JLabel best6kmValue = new JLabel(logbook.get6kmPB(), SwingConstants.CENTER);
         best2km.setFont(font);
         best6kmValue.setFont(font);
         best2kmValue.setFont(font);

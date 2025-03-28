@@ -213,8 +213,8 @@ public class RowTrackerApp {
         }
         System.out.println("Your logbook totals:");
         System.out.println("Total Entries: " + rowLogbook.countEntries());
-        System.out.println("Total Distance: " + rowLogbook.findTotalDistance() + " meters");
-        System.out.println("Total Time: " + rowLogbook.findTotalTime());
+        System.out.println("Total Distance: " + rowLogbook.getTotalDistance() + " meters");
+        System.out.println("Total Time: " + rowLogbook.getTotalTime());
     }
 
     // EFFECTS: prints current 2km and 6km personal bests
@@ -223,8 +223,8 @@ public class RowTrackerApp {
             return;
         }
         System.out.println("Your current personal bests:");
-        System.out.println("2km: " + rowLogbook.find2kmPersonalBest());
-        System.out.println("6km: " + rowLogbook.find6kmPersonalBest());
+        System.out.println("2km: " + rowLogbook.get2kmPB());
+        System.out.println("6km: " + rowLogbook.get6kmPB());
     }
 
     // EFFECTS: if logbook has no entries, prints user message and returns

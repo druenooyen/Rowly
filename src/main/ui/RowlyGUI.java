@@ -3,6 +3,8 @@ package ui;
 import java.awt.*;
 import javax.swing.*;
 
+import model.Event;
+import model.EventLog;
 import model.RowLogbook;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -23,7 +25,7 @@ public class RowlyGUI extends JFrame {
     private static final int WINDOW_HEIGHT = 300;
     private static final String FILE_DESTINATION = "./data/logbook.json";
 
-    private String[] options = { "Add Entry", "View Entries", "Logbook Totals", "Personal Bests", "Save and Exit"};
+    private String[] options = { "Add Entry", "View Entries", "Logbook Totals", "Personal Bests", "Save and Exit" };
 
     public RowlyGUI() {
         super("Rowly Rowing Workout Tracker");
@@ -81,9 +83,19 @@ public class RowlyGUI extends JFrame {
 
         if (option == JOptionPane.YES_OPTION) {
             saveChanges();
+            printLog();
             dispose();
         } else if (option == JOptionPane.NO_OPTION) {
+            printLog();
             dispose();
+        }
+    }
+
+    // EFFECTS: Prints log to console
+    public void printLog() {
+        EventLog eventLog = EventLog.getInstance();
+        for (Event e : eventLog) {
+            System.out.println(e.getDescription());
         }
     }
 
@@ -113,7 +125,7 @@ public class RowlyGUI extends JFrame {
         JLabel waveImageRight = new JLabel(scaledIcon);
 
         titleMenuPanel.add(makeTitlePanel(), BorderLayout.CENTER);
-        titleMenuPanel.add(waveImageLeft, BorderLayout.WEST); 
+        titleMenuPanel.add(waveImageLeft, BorderLayout.WEST);
         titleMenuPanel.add(waveImageRight, BorderLayout.EAST);
 
         final JComboBox userActions = new JComboBox(options);
@@ -122,6 +134,7 @@ public class RowlyGUI extends JFrame {
                 String userChoice = (String) userActions.getSelectedItem();
                 if (userChoice == "Save and Exit") {
                     saveChanges();
+                    printLog();
                     dispose();
                 }
                 actionPanel.displayBasedOnSelection(userChoice);
@@ -141,7 +154,7 @@ public class RowlyGUI extends JFrame {
         title.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
         JLabel selectOption = new JLabel("Please select an option:", SwingConstants.CENTER);
-        
+
         titlePanel.setBackground(Color.WHITE);
         titlePanel.add(title, BorderLayout.NORTH);
         titlePanel.add(selectOption, BorderLayout.SOUTH);

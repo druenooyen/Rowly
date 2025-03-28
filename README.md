@@ -28,6 +28,20 @@ I joined the UBC rowing team as a novice rower in September 2024 and have been l
 - You can save the state of the application by selecting "Save and Exit" from the dropdown menu or by closing the window,  which will prompt a pop up to save to file.
 - You can reload the state of the application via the pop up upon opening the application.
 
+## Phase 4
+### Task 2
+#### Sample log:  
+Entry added to logbook.  
+2km personal best updated.  
+Totals recalculated.  
+Entry added to logbook.  
+Totals recalculated.  
+Entry added to logbook.  
+6km personal best updated.  
+Totals recalculated.  
+Entries saved to file.   
+
+
 
 
 
