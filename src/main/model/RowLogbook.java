@@ -55,18 +55,6 @@ public class RowLogbook {
         EventLog.getInstance().logEvent(new Event("Totals recalculated."));
     }
 
-
-    
-    // // EFFECTS: returns total distance of all logbook entries
-    // public int findTotalDistance() {
-    //     int distance = 0;
-    //     for (RowEntry entry : rowLogbook) {
-    //         distance += entry.getDistance();
-    //     }
-    //     // EventLog.getInstance().logEvent(new Event("Total distance recalculated."));
-    //     return distance;
-    // }
-
     // REQUIRES: totalSeconds is >= 0
     // EFFECTS: converts total seconds to time in hh:mm:ss format
     private String convertToTimeString(int totalSeconds) {
@@ -77,24 +65,12 @@ public class RowLogbook {
         return String.format("%d:%02d:%02d", hours, minutes, seconds);
     }
 
-
-      // EFFECTS: returns total time of all logbook entries
-      public void updateTotalTime(RowEntry rowEntry) {
+    // EFFECTS: updates total time for all logbook entries
+    public void updateTotalTime(RowEntry rowEntry) {
         totalSeconds += rowEntry.getTotalSeconds();
     }
 
-    // // EFFECTS: returns total time of all logbook entries
-    // public String findTotalTime() {
-    //     int time = 0;
-    //     for (RowEntry entry : rowLogbook) {
-    //         time += entry.getTotalSeconds();
-    //     }
-    //     EventLog.getInstance().logEvent(new Event("Totals recalculated."));
-    //     return convertToTimeString(time);
-    // }
-
-    // EFFECTS: returns shortest 2km time in workout logbook, if none
-    // in logbook then returns "None"
+    // EFFECTS: updates shortest 2km time in workout logbook
     public void update2kmPersonalBest() {
         int shortest2kTime = Integer.MAX_VALUE;
         for (RowEntry entry : rowLogbook) {
@@ -109,35 +85,9 @@ public class RowLogbook {
             personalBest2km = convertToTimeString(shortest2kTime);
             EventLog.getInstance().logEvent(new Event("2km personal best updated."));
         }
-        // if (shortest2kTime == Integer.MAX_VALUE) {
-        //     return "None";
-        // } else {
-        //     return convertToTimeString(shortest2kTime);
-        // }
     }
 
-    //     // EFFECTS: returns shortest 2km time in workout logbook, if none
-    // // in logbook then returns "None"
-    // public String find2kmPersonalBest() {
-    //     int shortest2kTime = Integer.MAX_VALUE;
-    //     for (RowEntry entry : rowLogbook) {
-    //         if (entry.getDistance() == 2000 && entry.getTotalSeconds() < shortest2kTime) {
-    //             shortest2kTime = entry.getTotalSeconds();
-    //         }
-    //     }
-    //     if (shortest2kTime != personalBest2km) {
-    //         personalBest2km = shortest2kTime;
-    //         EventLog.getInstance().logEvent(new Event("2km personal best updated."));
-    //     }
-    //     if (shortest2kTime == Integer.MAX_VALUE) {
-    //         return "None";
-    //     } else {
-    //         return convertToTimeString(shortest2kTime);
-    //     }
-    // }
-
-    // EFFECTS: returns shortest 6km time in workout logbook, if none
-    // in logbook then returns "None"
+    // EFFECTS: updates shortest 6km time in workout logbook
     public void update6kmPersonalBest() {
         int shortest6kTime = Integer.MAX_VALUE;
         for (RowEntry entry : rowLogbook) {
@@ -154,25 +104,19 @@ public class RowLogbook {
         }
     }
 
+    // EFFECTS: converts rowLogbook to JSON object and returns it
+    public JSONObject toJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (RowEntry e : rowLogbook) {
+            jsonArray.put(e.toJson());
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("rowEntries", jsonArray);
 
+        EventLog.getInstance().logEvent(new Event("Entries saved to file."));
 
-    // public String find6kmPersonalBest() {
-    //     int shortest6kTime = Integer.MAX_VALUE;
-    //     for (RowEntry entry : rowLogbook) {
-    //         if (entry.getDistance() == 6000 && entry.getTotalSeconds() < shortest6kTime) {
-    //             shortest6kTime = entry.getTotalSeconds();
-    //         }
-    //     }
-    //     if (shortest6kTime != personalBest6km) {
-    //         personalBest6km = shortest6kTime;
-    //         EventLog.getInstance().logEvent(new Event("6km personal best updated."));
-    //     }
-    //     if (shortest6kTime == Integer.MAX_VALUE) {
-    //         return "None";
-    //     } else {
-    //         return convertToTimeString(shortest6kTime);
-    //     }
-    // }
+        return jsonObject;
+    }
 
     // getters
     public List<RowEntry> getRowLogbook() {
@@ -193,19 +137,5 @@ public class RowLogbook {
 
     public int getTotalDistance() {
         return totalDistance;
-    }
-
-    // EFFECTS: converts rowLogbook to JSON object and returns it
-    public JSONObject toJson() {
-        JSONArray jsonArray = new JSONArray();
-        for (RowEntry e : rowLogbook) {
-            jsonArray.put(e.toJson());
-        }
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("rowEntries", jsonArray);
-
-        EventLog.getInstance().logEvent(new Event("Entries saved to file."));
-
-        return jsonObject;
     }
 }
